@@ -3,13 +3,13 @@
 
 Как притча во языцах заветные три буквы: 
 
-![etl_spyder.png](img%2Fetl_spyder.png)
+![etl_spyder.png](..%2F..%2Fimg%2Fetl_spyder.png)
 
 В нужной последовательности каждый расставит сам, но нас будет интересовать буковка Т - это и есть домик для dbt =)
 
 --------------------------
 
-![place_of_dbt.drawio.png](img%2Fplace_of_dbt.drawio.png)
+![place_of_dbt.drawio.png](..%2F..%2Fimg%2Fplace_of_dbt.drawio.png)
 
 **T** - отвечает за трансформации данных внутри хранилища данных, в целом их можно делать любым удобным способом (
 хоть выгружать в Excel, крутить там и возвращать обратно), но всё имеет свою цену.
@@ -25,7 +25,7 @@
 
 Вот примерно также подумали разработчики и появился **dbt**
 
-![init_dbt.drawio.png](img%2Finit_dbt.drawio.png)
+![init_dbt.drawio.png](..%2F..%2Fimg%2Finit_dbt.drawio.png)
 
 - Что такое [SQL](https://aws.amazon.com/ru/what-is/sql/)
 - что такое [jinja2](https://ru.wikipedia.org/wiki/Jinja)
@@ -49,7 +49,7 @@
 
 ### Поднимаем инфру
 
-![infra.png](img%2Finfra.png)
+![infra.png](..%2F..%2Fimg%2Finfra.png)
 
 1. Postgres
 
@@ -75,11 +75,11 @@ docker run -d --name clickhouse-server -e CLICKHOUSE_USER=clickadmin -e CLICKHOU
 
 Делаем следующее, ищем нужный пакет для вашей версии pg - `apt-cache search ".*plpython3.*"`
 
-![install_plpython_3u.png](img%2Finstall_plpython_3u.png)
+![install_plpython_3u.png](..%2F..%2Fimg%2Finstall_plpython_3u.png)
 
 2. Сначала подключаем расширение `plpython3u`, после `aws_s3`
 
-![create_extensions.png](img%2Fcreate_extensions.png)
+![create_extensions.png](..%2F..%2Fimg%2Fcreate_extensions.png)
 
 3. Может потребоваться устновить `apt install python3-boto3` - именно такой командой
 
@@ -122,7 +122,7 @@ CREATE SCHEMA cdm;
 
 ## Where is data, Lebowski
 
-![where_is_data.gif](img%2Fwhere_is_data.gif)
+![where_is_data.gif](..%2F..%2Fimg%2Fwhere_is_data.gif)
 
 Используем данные, спарсенные с [kinopoisk.ru](https://www.kinopoisk.ru/) по фильмам. Данные доступны по [ссылке](https://storage.yandexcloud.net/public-bucket-6/data/kinopoisk_parsing.csv)
 Они лежат в YandexObject Storage - наш ответ AWS S3.
@@ -203,9 +203,9 @@ SELECT aws_s3.table_import_from_s3(
 ```
 ps: попытка засчитана, расширение пытается подключиться, но тк утилита настроена по дефолту работать с AWS то и endpoint ведет туда 🤷
 
-![aws_s3_error.png](img%2Faws_s3_error.png)
+![aws_s3_error.png](..%2F..%2Fimg%2Faws_s3_error.png)
 
-![crash_truck.png](img%2Fcrash_truck.png)
+![crash_truck.png](..%2F..%2Fimg%2Fcrash_truck.png)
 
 Альтернативный вариант с `COPY` (пока так можно):
 
@@ -216,11 +216,11 @@ DELIMITER ';' CSV HEADER;
 
 Чекаем данные:
 
-![check_after_copy.png](img%2Fcheck_after_copy.png)
+![check_after_copy.png](..%2F..%2Fimg%2Fcheck_after_copy.png)
 
 Проверка типов данных:
 
-![check_datatypes.png](img%2Fcheck_datatypes.png)
+![check_datatypes.png](..%2F..%2Fimg%2Fcheck_datatypes.png)
 
 ☝️ИТОГ:
 - разобрали способ доставки данных из S3 в DWH
