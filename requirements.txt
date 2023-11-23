@@ -2,3 +2,11 @@ dbt-core==1.1.0
 dbt-postgres==1.1.0
 
 pytz
+
+python-dotenv
+faker
+
+pandas
+psycopg2-binary
+sqlalchemy
+scipy
