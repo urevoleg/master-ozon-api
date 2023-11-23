@@ -14,5 +14,5 @@ postgres:
       user: shpz
       pass: "12345"
       dbname: tmp
-      schema: public
+      schema: stg
   target: dev

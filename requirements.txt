@@ -1,5 +1,6 @@
 dbt-core==1.1.0
 dbt-postgres==1.1.0
+dbt-clickhouse
 
 pytz
 
@@ -10,3 +11,5 @@ pandas
 psycopg2-binary
 sqlalchemy
 scipy
+
+fake-web-events
