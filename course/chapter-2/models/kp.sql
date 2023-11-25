@@ -2,7 +2,8 @@
 {{materialization(type='table', schema='dds', name='raw_kp')}}
 {% extends 'add_load_datetime_source.sql' %}
 {% block qdt -%}
-SELECT film_name,
+SELECT production_year,
+       film_name,
        lower(split_part(country, '_', 1)) as country,
        lower(split_part(genre, '_', 1)) as genre ,
        lower(split_part(director, '_', 1)) as director ,
@@ -11,4 +12,5 @@ SELECT film_name,
        regexp_replace(substring(rating_imbd from '\d.\d+'), '\s+', '', 'g')::float imdb
 FROM stg.kinopoisk
 WHERE film_name IS NOT NULL
+AND production_year != ''
 {%- endblock qdt %}
