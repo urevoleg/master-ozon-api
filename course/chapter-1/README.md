@@ -231,3 +231,5 @@ DELIMITER ';' CSV HEADER;
 roadmap:
 - первые модельки
 - transform from stg.table to dds.stg_table
+
+---------------------------------
