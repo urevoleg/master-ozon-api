@@ -198,4 +198,4 @@ roadmap:
 - первые модельки
 - transform from stg.table to dds.stg_table
 
-👉 [Jinja magic, go to chapter 2-1](https://github.com/urevoleg/course-dbt-fundamentals/tree/main/course/chapter-2#если-есть-html-код-и-не-только-и-в-него-нужно-что-то-вставить)
+👉 [Jinja magic, go to chapter 2-1](https://github.com/urevoleg/course-dbt-fundamentals/tree/main/course/chapter-2-1#если-есть-html-код-и-не-только-и-в-него-нужно-что-то-вставить)
