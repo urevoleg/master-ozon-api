@@ -101,3 +101,107 @@ SELECT '{{ my_var }}' as external_name,
 SELECT 'Hello, Jinja2!' as external_name,
       now() as dt;
 ```
+
+В качестве переменной можно задать список `{% set my_list = ['once', 'twice', 'qwerty']%}`:
+
+```sql
+SELECT '['once', 'twice', 'qwerty']' as external_name,
+      now() as dt;
+```
+
+4. Использование `for`
+
+Умеем создавать список значений, значит по нему можно пройтись, для этого и необходима конструкция `for`, синтаксис:
+
+```python
+{% for elem in elem_list%}
+
+{% endfor %}
+```
+
+Внутри необходимо написать то, что мы хотим выполнить для каждого элемента, используем задание перменной и цикл для формирование нескольких селектов,
+обращаться к переменной цикла: `{{ elem }}`
+
+```sql
+{% set my_list = ['once', 'twice', 'qwerty']%}
+
+{% for elem in my_list%}
+SELECT '{{ elem }}' as external_name,
+      now() as dt
+{% endfor %}
+```
+
+Имеем следующий результат:
+
+```sql
+SELECT 'once' as external_name,
+      now() as dt
+
+SELECT 'twice' as external_name,
+      now() as dt
+
+SELECT 'qwerty' as external_name,
+      now() as dt
+```
+
+Почти то, что хотелось, для объединения запросов необходимо добавить оператор `UNION ALL`, дописывай после запроса и смотри результат:
+
+```sql
+SELECT 'once' as external_name,
+      now() as dt
+UNION ALL
+
+SELECT 'twice' as external_name,
+      now() as dt
+UNION ALL
+
+SELECT 'qwerty' as external_name,
+      now() as dt
+UNION ALL
+```
+
+5. `if`
+Мешает последняя запись `UNION ALL`, которая будет вызывать ошибку при выполнении SQL, и здесь к тебе на помощь приходит еще одна конструкция - `if`:
+
+```sql
+{% set my_list = ['once', 'twice', 'qwerty']%}
+
+{% for elem in my_list%}
+SELECT '{{ elem }}' as external_name,
+      now() as dt
+{% if not loop.last %}
+UNION ALL
+{% endif %}
+{% endfor %}
+```
+
+Как ты мог заметить, синтаксис ни чем не отличается от других конструкций и чем-то похож на Python. Выше используется проверка специальной переменной `loop`
+пока не последний элемент будет добавлятся текст указанный внутри `if`, для последнего элемента добавления не будет, смотрим на результат:
+
+![set-for-if-example.png](img%2Fset-for-if-example.png)
+
+
+6. Решаем поставленную задачу
+
+```
+Для каждого года в списке вывести кол-во фильмов
+```
+
+Задачу можно решить несколькими способами, например:
+- использовать `CASE\WHEN`
+- использовать `WHERE\UNION`
+- использовать `WHERE\GROUP BY`
+- ....
+
+Я буду использовать первый вариант [set-for-if-example-1.sql](templates%2Fset-for-if-example-1.sql), сгенерированный код и результат запроса:
+
+![set-for-if-example-1.png](img%2Fset-for-if-example-1.png)
+
+### Интересное и важное
+
+Ты мог заметить, что при генерации появляются пустые строки между строками запроса, их наличие или отсутствие определяется еле заметным изменением 
+в синтаксисе:
+
+![minus-empty-string.png](img%2Fminus-empty-string.png)
+
+☝️Указание `минуса` в синтаксисе управляет наличием пустой строки перед или после указанного оператора.

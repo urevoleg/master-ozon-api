@@ -14,6 +14,6 @@ def get_rendered_template(template_folder:str, template_name:str, **kwargs):
 
 if __name__ == "__main__":
     stmt = get_rendered_template("../templates",
-                                 "set-example.sql")
+                                 "set-for-if-example-1.sql")
 
     print(stmt)

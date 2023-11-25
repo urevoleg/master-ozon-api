@@ -1,3 +1,3 @@
-{% set my_var = 'Hello, Jinja2!'%}
+{% set my_var = ['once', 'twice', 'qwerty']%}
 SELECT '{{ my_var }}' as external_name,
       now() as dt;
