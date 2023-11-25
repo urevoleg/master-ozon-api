@@ -175,6 +175,11 @@ COPY kinopoisk FROM PROGRAMM 'curl https://storage.yandexcloud.net/public-bucket
 DELIMITER ';' CSV HEADER;
 ```
 
+Здесь используем инструментарий Postgres:
+- COPY - команда для загрузки/выгрузки данных в/из таблиц/файлов
+- PROGRAMM - позволяет Postgres запустить внешнюю программу, которая вернет данные (в нашем случае, используется утилита [curl](https://ru.wikipedia.org/wiki/CURL),
+при помощи нее читаем данные из бакета и передаём их команде COPY, она загружает их в подготовленную таблицу)
+
 Чекаем данные:
 
 ![check_after_copy.png](..%2F..%2Fimg%2Fcheck_after_copy.png)
@@ -192,3 +197,5 @@ DELIMITER ';' CSV HEADER;
 roadmap:
 - первые модельки
 - transform from stg.table to dds.stg_table
+
+👉 [Jinja magic, go to chapter 2](https://github.com/urevoleg/course-dbt-fundamentals/tree/main/course/chapter-2)
