@@ -206,4 +206,4 @@ UNION ALL
 
 ☝️Указание `минуса` в синтаксисе управляет наличием пустой строки перед или после указанного оператора.
 
-👉 [Deep and deeper, go to chapter 2-2]()
+👉 [Deep and deeper, go to chapter 2-2](https://github.com/urevoleg/course-dbt-fundamentals/blob/main/course/chapter-2/README-2-2.md#deeper-jinja)
