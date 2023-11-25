@@ -6,7 +6,7 @@
 
 Поэтому еще небольшой макрос, чтобы всё по-взрослому было:
 
-```postgres-sql
+```sql
 {% macro ref(name) -%}
 dds.{{name}}
 {% endmacro %}
@@ -23,7 +23,7 @@ dds.{{name}}
 
 Пишем SQL код:
 
-```postgres-sql
+```sql
 SELECT production_year, 
        country, 
        genre,
