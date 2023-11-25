@@ -134,4 +134,4 @@ Jinja2 умеет не только подставлять всякие знач
 
 Да, пребудет с вами красота и лаконичность кода🙌
 
-👉 [Deeper to Jinja, go to chapter 2-1](https://github.com/urevoleg/course-dbt-fundamentals/tree/main/course/)
+👉 [Deeper to Jinja, go to chapter 2-1](https://github.com/urevoleg/course-dbt-fundamentals/blob/main/course/chapter-2/README-2.md)
