@@ -13,3 +13,4 @@ sqlalchemy
 scipy
 
 fake-web-events
+pyyaml
