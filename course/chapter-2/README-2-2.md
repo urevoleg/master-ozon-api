@@ -194,7 +194,4 @@ def save_compiled_model(file:str, folder:str='compiled'):
 
 ![dds-raw.png](img%2Fdds-raw.png)
 
--------------------------------
-
-
-
+👉 [Deep and deeper, go to chapter 2-3](https://github.com/urevoleg/course-dbt-fundamentals/blob/main/course/chapter-2/README-2-3.md)
