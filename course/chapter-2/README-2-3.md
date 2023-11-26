@@ -40,3 +40,13 @@ ORDER BY production_year
 - добавить ссылку на источник данных для витрины
 - добавить конфиг: какой тип материализации использовать
 
+У меня получилось так [dm_countries_and_genres.sql](models%2Fdm%2Fdm_countries_and_genres.sql)
+
+Отрендеренный код [dm_countries_and_genres.sql](compiled%2Fdm_countries_and_genres.sql)
+
+Чтобы предоставить витрину, необходим BI - вот мы и добрались до [Metabase](https://www.metabase.com/), так же как и остальную инфру запускаем в docker - 
+[инструкция](https://www.metabase.com/docs/latest/installation-and-operation/running-metabase-on-docker)
+
+Например, такой дашборд может получиться:
+
+![dash-0.png](img%2Fdash-0.png)
