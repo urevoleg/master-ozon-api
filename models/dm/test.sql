@@ -11,12 +11,12 @@ SELECT 'day' AS period,
        CAST(now() AT TIME ZONE 'UTC' - INTERVAL '1 day' AS date) AS ended_at
 UNION ALL
 SELECT 'week' AS period,
-       (CASE WHEN extract(isodow from now()) >= 6  THEN date_trunc('week', now())
+       (CASE WHEN extract(isodow from now()) >= 4  THEN date_trunc('week', now())
             ELSE date_trunc('week', now()) - INTERVAL '1 week' END)::date AS started_at,
        CAST(date_trunc('week', now()) AS date) AS ended_at
 UNION ALL
 SELECT 'month' AS period,
-       (CASE WHEN extract(day from now()) >= 16 THEN date_trunc('month', now())
+       (CASE WHEN extract(day from now()) >= 4 THEN date_trunc('month', now())
             ELSE date_trunc('month', now()) - INTERVAL '1 month' END)::date AS started_at,
        CAST(date_trunc('month', now()) AS date) AS ended_at
 {%- endset -%}
