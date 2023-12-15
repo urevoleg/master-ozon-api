@@ -3,8 +3,8 @@ config:
   use_colors: True
   partial_parse: True
 
-
-postgres:
+# запуск dbt dbt compile --profiles-dir ./  -m "tag:dau"
+default:
   outputs:
     dev:
       type: postgres

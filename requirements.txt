@@ -1,6 +1,7 @@
 dbt-core==1.1.0
 dbt-postgres==1.1.0
 dbt-clickhouse
+dbt-duckdb
 
 pytz
 
