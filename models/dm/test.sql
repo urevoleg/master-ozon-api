@@ -5,6 +5,7 @@
     )
 }}
 
+{# Подзапрос определения интервалов для каждого периода #}
 {%- set dates_query -%}
 SELECT 'day' AS period,
        CAST(now() AT TIME ZONE 'UTC' - INTERVAL '3 day' AS date) AS started_at,
@@ -34,12 +35,12 @@ SELECT 'month' AS period,
 
 {# Loop for periods #}
 {%- for result in results_list -%}
-    {# query for partial results #}
+    {# Для каждого периода вычисляем список дат #}
     {%- set partial_results_query %}
     SELECT '{{result[0]}}' as period, * FROM generate_series('{{result[1]}}', '{{result[2]}}', '1 {{result[0]}}'::interval) d
     {% endset -%}
     {%- set partial_results = run_query(partial_results_query) -%}
-    {# calculate mart for partial results #}
+    {# Для каждой даты нужного периоды выполняем запрос #}
     {%- for partial_result in partial_results -%}
         {{log(partial_result, info=True)}}
         SELECT '{{partial_result[0]}}' as report_period,
