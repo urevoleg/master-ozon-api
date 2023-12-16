@@ -41,8 +41,8 @@ SELECT 'month' AS period,
     {% endset -%}
     {%- set partial_results = run_query(partial_results_query) -%}
     {# Для каждой даты нужного периоды выполняем запрос #}
-    {%- for partial_result in partial_results -%}
-        {{log(partial_result, info=True)}}
+    {%- for partial_result in partial_results %}
+        {{ log(partial_result, info=True) }}
         SELECT '{{partial_result[0]}}' as report_period,
                '{{partial_result[1]}}' as report_date,
                os_name,
@@ -53,7 +53,7 @@ SELECT 'month' AS period,
         {% if not loop.last -%}
         UNION ALL
         {% endif %}
-    {% endfor %}
+    {% endfor -%}
 {% if not loop.last -%}
 UNION ALL
 {% endif %}
