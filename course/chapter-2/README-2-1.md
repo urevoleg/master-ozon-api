@@ -64,7 +64,7 @@ AND country = 'США'
 SELECT column_name,
       data_type
 FROM information_schema.COLUMNS
-WHERE ![img.png](img.png)table_name = 'kinopoisk';
+WHERE table_name = 'kinopoisk';
 ```
 
 Все поля у нас текстовые, кроме **rating_kp_top** (ему повезло).
