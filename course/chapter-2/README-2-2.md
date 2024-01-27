@@ -1,6 +1,6 @@
 # Deeper Jinja
 
-![deeper.jpeg](img% 2Fdeeper.jpeg)
+![deeper.jpeg](img%2Fdeeper.jpeg)
 
 В этой части тебя ждут макросы и расширения.
 
