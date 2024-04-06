@@ -15,20 +15,11 @@ default:
       pass: "12345"
       dbname: tmp
       schema: stg
-  target: dev
-
-duckdb:
-  target: dev
-  outputs:
-    dev:
+    duckdb:
       type: duckdb
       path: '~/Downloads/dbt.duckdb'
       extensions:
         - postgres
         - httpfs
         - parquet
-      settings:
-        s3_region: ""
-        s3_access_key_id: "{{ env_var('S3_ACCESS_KEY_ID') }}"
-        s3_secret_access_key: "{{ env_var('S3_SECRET_ACCESS_KEY') }}"
-        s3_endpoint: "127.0.0.1:9002"
+  target: dev
