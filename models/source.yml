@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: parser
+    schema: stage
+    tables:
+      - name: kp_search_results
+      - name: kp_film_actor
+  - name: s3-dev
+    schema: dev-stg
+    tables:
+      - name: films
+      - name: actors

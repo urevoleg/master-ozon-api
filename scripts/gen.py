@@ -38,9 +38,5 @@ def gen_data(n_session_per_day: int=50000, users: int = 1000) -> List[Dict]:
 if __name__ == '__main__':
     import csv
     # data = gen_data(n_session_per_day=100000000, users=1000)
-    df = pd.read_csv(os.path.join(os.path.expanduser('~'), 'Downloads', 'appm.csv'),
-                     sep=',', skiprows=[0, 1], parse_dates=True)
-    print(df.head())
-    print(df.shape)
-    df.to_sql('events', get_pg_connection(), if_exists='replace', schema='stg')
+    pass
 
