@@ -35,5 +35,9 @@ models:
   dm:
     # Applies to all files under models/dm/
     materialized: view
+  ods:
+    materialized: incremental
   stg:
+    materialized: table
+  raw:
     materialized: table

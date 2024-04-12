@@ -17,6 +17,7 @@ default:
       schema: stg
     duckdb:
       type: duckdb
+      schema: ods
       path: '~/Downloads/dbt.duckdb'
       extensions:
         - postgres
