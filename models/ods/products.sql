@@ -58,7 +58,7 @@ src_payload:
   - price_indexes
   - description_category_id
   - type_id
-  - proccess_date
+  - process_date
 src_eff: "load_datetime"
 src_ldts: "load_datetime"
 src_source: "record_source"

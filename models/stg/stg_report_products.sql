@@ -10,7 +10,7 @@ source_model: raw_report_products
 derived_columns:
   load_datetime: CAST(now() as timestamp)
   record_source: '!report_products'
-  proccess_date: CAST('{{ var("logical_date") }}' as date)
+  process_date: CAST('{{ var("logical_date") }}' as date)
   offer_id:
     source_column: CAST(RIGHT("Артикул", LENGTH("Артикул")-1) as varchar)
   product_id:

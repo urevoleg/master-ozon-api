@@ -40,7 +40,7 @@ src_payload:
   - marketing_price
   - link_marketing_price
   - nds
-  - proccess_date
+  - process_date
 src_eff: "load_datetime"
 src_ldts: "load_datetime"
 src_source: "record_source"
