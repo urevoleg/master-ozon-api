@@ -7,6 +7,8 @@
  target='duckdb',
  schema='ods',
  materialized='incremental',
+incremental_strategy='delete+insert',
+unique_key=['hasdiff']
 ) }}
 
 {%- set yaml_metadata -%}

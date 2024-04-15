@@ -1,26 +1,25 @@
 {{ config(
- tags=['stg_report_postings', 'report_postings', 'stg'],
+ tags=['stg_report_stocks', 'report_stocks', 'stg'],
  target='duckdb',
  schema='stg',
  materialized='table',
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: stg_view_report_postings
+source_model: stg_view_report_stocks
 derived_columns:
   load_datetime: CAST(now() as timestamp)
-  record_source: '!report_postings'
+  record_source: '!report_stocks'
   process_date: CAST('{{ var("logical_date") }}' as date)
 hashed_columns:
   daily_hashdiff:
     is_hashdiff: true
     columns:
+      - warehouse_pk
       - product_pk
-      - order_id
-      - posting_id
       - delivery_type
-      - CAST('{{ var("logical_date") }}' as date)
-      - '!report_postings'
+      - derived_columns.process_date
+      - derived_columns.record_source
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}

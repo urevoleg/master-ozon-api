@@ -13,4 +13,4 @@
 ) }}
 
 select *
-from 's3://dev-raw/reports/postings/{{ var("logical_date") }}/fbo_seller_postings_{{ var("logical_date") }}.csv'
+from read_csv_auto('s3://dev-raw/reports/postings/{{ var("logical_date") }}/fbo_seller_postings_{{ var("logical_date") }}.csv', sep=';', header=true)

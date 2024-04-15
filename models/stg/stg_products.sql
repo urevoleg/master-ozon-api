@@ -2,7 +2,7 @@
  tags=['stg_products', 'products', 'stg'],
  target='duckdb',
  schema='stg',
- materialized='table',
+ materialized='table'
 ) }}
 
 {%- set yaml_metadata -%}
@@ -28,8 +28,8 @@ hashed_columns:
       - barcode
       - fbs_sku
       - fbo_sku
-      - CAST('{{ var("logical_date") }}' as date)
-      - '!products'
+      - derived_columns.process_date
+      - derived_columns.record_source
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}
