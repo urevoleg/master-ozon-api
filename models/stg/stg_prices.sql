@@ -1,28 +1,21 @@
 {{ config(
- tags=['stg_report_transactions', 'report_transactions', 'transactions', 'stg'],
+ tags=['stg_prices', 'product_prices', 'prices', 'stg'],
  schema='stg',
- materialized='table',
+ materialized='table'
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: raw_v_report_transactions
+source_model: raw_v_prices
 derived_columns:
   load_datetime: CAST(now() as timestamp)
   record_source: '!ozon'
   process_date: CAST('{{ var("logical_date") }}' as date)
-  service_type: type
-  operation_id: operation_id
+  offer_id: offer_id
 hashed_columns:
-  transaction_pk:
-   is_hashdiff: true
-   columns:
-      - derived_columns.operation_id
-      - derived_columns.record_source
-  report_transactions_hashdiff:
+  product_pk:
     is_hashdiff: true
     columns:
-      - derived_columns.operation_id
-      - derived_columns.service_type
+      - derived_columns.offer_id
       - derived_columns.record_source
 {%- endset -%}
 

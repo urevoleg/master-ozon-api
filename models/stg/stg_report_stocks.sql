@@ -1,23 +1,39 @@
 {{ config(
- tags=['stg_report_stocks', 'report_stocks', 'stg'],
- target='duckdb',
+ tags=['stg_report_stocks', 'report_stocks', 'stocks', 'stg'],
  schema='stg',
  materialized='table',
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: stg_view_report_stocks
+source_model: raw_report_stocks
 derived_columns:
   load_datetime: CAST(now() as timestamp)
-  record_source: '!report_stocks'
+  record_source: '!ozon'
   process_date: CAST('{{ var("logical_date") }}' as date)
+  offer_id: offer_id
+  warehouse_name: warehouse_name
+  delivery_type: delivery_type
 hashed_columns:
-  daily_hashdiff:
+  product_pk:
     is_hashdiff: true
     columns:
-      - warehouse_pk
-      - product_pk
-      - delivery_type
+      - derived_columns.offer_id
+      - derived_columns.record_source
+  warehouse_pk:
+    is_hashdiff: true
+    columns:
+      - derived_columns.warehouse_name
+  report_stock_pk:
+    is_hashdiff: true
+    columns:
+      - derived_columns.warehouse_name
+      - derived_columns.offer_id
+  report_stocks_hashdiff:
+    is_hashdiff: true
+    columns:
+      - derived_columns.warehouse_name
+      - derived_columns.offer_id
+      - derived_columns.delivery_type
       - derived_columns.process_date
       - derived_columns.record_source
 {%- endset -%}

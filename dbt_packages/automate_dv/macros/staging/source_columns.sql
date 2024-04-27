@@ -11,7 +11,7 @@
         {%- set column_list = [] -%}
 
         {%- for source_col in source_model_cols -%}
-            {% do column_list.append('"' ~ source_col.column ~ '"') %}
+            {%- do column_list.append(source_col.column) -%}
         {%- endfor -%}
 
         {%- do return(column_list) -%}

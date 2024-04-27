@@ -55,12 +55,6 @@
 
 {% endmacro %}
 
-{% macro duckdb__hash_alg_md5() -%}
-
-    {% do return("MD5([HASH_STRING_PLACEHOLDER])") %}
-
-{% endmacro %}
-
 {% macro databricks__hash_alg_md5() -%}
 
     {% do return(automate_dv.cast_binary('UPPER(MD5([HASH_STRING_PLACEHOLDER]))', quote=false)) %}

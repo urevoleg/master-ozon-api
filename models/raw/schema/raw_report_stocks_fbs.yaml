@@ -1,0 +1,11 @@
+version: 2
+sources:
+- name: external_data
+  database: dwh
+  schema: raw
+  loader: S3
+  tables:
+  - name: raw_report_stocks_fbs
+    file_format: (TYPE = CSV)
+models:
+- name: raw_report_stocks_fbs

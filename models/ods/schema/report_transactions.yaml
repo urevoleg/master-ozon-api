@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: report_transactions
+    columns:
+      - name: transaction_pk
+        tests:
+          - unique
+          - not_null
+      - name: service_type
+        tests:
+          - accepted_values:
+              values: ['services',
+                      'transfer_delivery',
+                      'other',
+                      'returns',
+                      'orders']
+      - name: amount
+        tests:
+          - not_null

@@ -1,6 +1,5 @@
 {{ config(
  tags=['stg_products', 'products', 'stg'],
- target='duckdb',
  schema='stg',
  materialized='table'
 ) }}
@@ -9,26 +8,19 @@
 source_model: raw_products
 derived_columns:
   load_datetime: CAST(now() as timestamp)
-  record_source: '!products'
+  record_source: '!ozon'
   process_date: CAST('{{ var("logical_date") }}' as date)
+  offer_id: offer_id
 hashed_columns:
   product_pk:
     is_hashdiff: true
     columns:
-      - product_id
-      - offer_id
-      - barcode
-      - fbs_sku
-      - fbo_sku
-  daily_hashdiff:
+      - derived_columns.offer_id
+      - derived_columns.record_source
+  product_hashdiff:
     is_hashdiff: true
     columns:
-      - product_id
-      - offer_id
-      - barcode
-      - fbs_sku
-      - fbo_sku
-      - derived_columns.process_date
+      - derived_columns.offer_id
       - derived_columns.record_source
 {%- endset -%}
 

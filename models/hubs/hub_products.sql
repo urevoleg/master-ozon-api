@@ -1,6 +1,5 @@
 {{ config(
  tags=['ods_hub_products', 'hub_products', 'ods_products', 'products', 'ods'],
- target='duckdb',
  schema='ods',
  materialized='incremental',
 ) }}
@@ -8,7 +7,7 @@
 {%- set source_model = "stg_products" -%}
 {%- set src_pk = "product_pk" -%}
 {%- set src_nk = "offer_id" -%}
-{%- set src_extra_columns = ["product_id", "offer_id", "barcode", "fbs_sku", "fbo_sku"] -%}
+{%- set src_extra_columns = ["product_id", "barcode", "fbs_sku", "fbo_sku"] -%}
 {%- set src_ldts = "load_datetime" -%}
 {%- set src_source = "record_source" -%}
 

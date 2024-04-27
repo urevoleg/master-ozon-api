@@ -1,26 +1,50 @@
 {{ config(
- tags=['stg_report_postings', 'report_postings', 'stg'],
- target='duckdb',
+ tags=['stg_report_postings', 'report_postings', 'postings', 'stg'],
  schema='stg',
  materialized='table',
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: stg_view_report_postings
+source_model: raw_report_postings
 derived_columns:
   load_datetime: CAST(now() as timestamp)
-  record_source: '!report_postings'
+  record_source: '!ozon'
   process_date: CAST('{{ var("logical_date") }}' as date)
+  offer_id: offer_id
+  order_id: order_id
+  posting_id: posting_id
 hashed_columns:
-  daily_hashdiff:
+  product_pk:
     is_hashdiff: true
     columns:
-      - product_pk
-      - order_id
-      - posting_id
-      - delivery_type
-      - CAST('{{ var("logical_date") }}' as date)
-      - '!report_postings'
+      - derived_columns.offer_id
+      - derived_columns.record_source
+  posting_pk:
+    is_hashdiff: true
+    columns:
+      - derived_columns.posting_id
+      - derived_columns.record_source
+  order_pk:
+    is_hashdiff: true
+    columns:
+      - derived_columns.order_id
+      - derived_columns.record_source
+  report_posting_pk:
+    is_hashdiff: true
+    columns:
+      - derived_columns.posting_id
+      - derived_columns.order_id
+      - derived_columns.offer_id
+      - derived_columns.record_source
+  report_postings_hashdiff:
+    is_hashdiff: true
+    columns:
+      - derived_columns.posting_id
+      - derived_columns.order_id
+      - derived_columns.offer_id
+      - derived_columns.delivery_type
+      - derived_columns.process_date
+      - derived_columns.record_source
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}

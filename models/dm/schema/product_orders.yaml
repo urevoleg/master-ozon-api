@@ -1,0 +1,19 @@
+version: 2
+models:
+- name: product_orders
+  description: Таблица с информацией о кол-ве заказов в разрезе sku
+  columns:
+  - name: dated_at
+    description:  Дата расчета
+  - name: offer_id
+    description: Артикул
+  - name: barcode
+    description: Штрихкод
+  - name: product_name
+    description: Наименование продукта
+  - name: orders
+    description: Количество заказов
+  - name: total_cost
+    description: Общая стоимость
+  - name: product_pk
+    description: Уникальный идентификатор продукта (суррогатный ключ)

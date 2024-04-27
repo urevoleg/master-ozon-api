@@ -1,6 +1,5 @@
 {{ config(
  tags=['raw_products', 'products', 'raw'],
- target='duckdb',
  schema='raw',
  materialized='table',
 ) }}
@@ -13,7 +12,7 @@ is_fbs_visible,
 archived,
 p.is_discounted,
 id,
-name,
+product_name,
 barcode,
 CASE WHEN buybox_price = '' THEN NULL ELSE buybox_price::numeric END as buybox_price,
 category_id,
@@ -54,7 +53,8 @@ updated_at,
 price_indexes,
 sku,
 description_category_id,
-type_id
-FROM {{ ref('raw_products_list') }} p
-JOIN {{ ref('raw_products_extended') }} pe
+type_id,
+now() as effective_dttm
+FROM {{ source('external_data', 'raw_products_list') }} p
+JOIN {{ source('external_data', 'raw_products_extended') }} pe
 USING (offer_id)

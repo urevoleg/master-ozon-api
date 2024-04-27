@@ -1,48 +1,40 @@
 {{ config(
- tags=['raw_report_postings', 'report_postings', 'raw'],
- target='duckdb',
+ tags=['raw_report_postings', 'report_postings', 'postings', 'raw'],
  schema='raw',
  materialized='table',
- pre_hook="SET s3_region = '';
-    SET s3_endpoint = '127.0.0.1:9002';
-    SET s3_use_ssl = false;
-    SET s3_url_style = 'path';
-    SET s3_access_key_id = 's3admin';
-    SET s3_secret_access_key = 's3pass_)';
-    ATTACH 'dbname=tmp user=shpz password=12345 host=127.0.0.1 port=5432' AS db (TYPE POSTGRES);"
 ) }}
 
 WITH raw AS (SELECT "Номер заказа",
 "Номер отправления",
-"Принят в обработку",
-"Дата отгрузки",
+"Принят в обработку"::timestamp,
+"Дата отгрузки"::timestamp,
 "Статус",
-"Дата доставки",
-"Сумма отправления",
+"Дата доставки"::timestamp,
+CAST("Сумма отправления" as numeric),
 "Код валюты отправления",
 "Наименование товара",
-"OZON id",
+cast("OZON id" as bigint),
 "Артикул",
-"Итоговая стоимость товара",
+cast("Итоговая стоимость товара" as numeric),
 "Код валюты товара",
-"Количество",
+cast("Количество" as bigint),
 "Стоимость доставки",
 "Связанные отправления",
 "Выкуп товара",
-"Цена товара до скидок",
+cast("Цена товара до скидок" as numeric),
 "Скидка %",
-"Скидка руб",
+cast("Скидка руб" as numeric),
 "Акции",
 'fbo' AS delivery_type
-FROM {{ ref('raw_report_postings_fbo') }}
+FROM {{ source('external_data', 'raw_report_postings_fbo') }}
 UNION ALL
 SELECT "Номер заказа",
 "Номер отправления",
-"Принят в обработку",
-"Дата отгрузки",
+"Принят в обработку"::timestamp,
+"Дата отгрузки"::timestamp,
 "Статус",
-"Дата доставки",
-"Сумма отправления",
+"Дата доставки"::timestamp,
+cast("Сумма отправления" as numeric),
 "Код валюты отправления",
 "Наименование товара",
 "OZON id",
@@ -58,7 +50,7 @@ SELECT "Номер заказа",
 "Скидка руб",
 "Акции",
 'fbs' AS delivery_type
-FROM {{ ref('raw_report_postings_fbs') }})
+FROM {{ source('external_data', 'raw_report_postings_fbs') }})
 SELECT
 "Номер заказа" AS order_id,
 "Номер отправления" AS posting_id,

@@ -1,75 +1,42 @@
 {{ config(
- tags=['stg_report_products', 'report_products', 'stg'],
- target='duckdb',
+ tags=['stg_report_products', 'report_products', 'products', 'stg'],
  schema='stg',
  materialized='table',
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: raw_report_products
+source_model: raw_v_report_products
 derived_columns:
   load_datetime: CAST(now() as timestamp)
-  record_source: '!report_products'
+  record_source: '!ozon'
   process_date: CAST('{{ var("logical_date") }}' as date)
   offer_id:
-    source_column: CAST(RIGHT("Артикул", LENGTH("Артикул")-1) as varchar)
+    source_column: CAST(RIGHT(offer_id, LENGTH(offer_id)-1) as varchar)
   product_id:
-    source_column: CAST("Ozon Product ID" as varchar)
+    source_column: CAST(product_id as varchar)
   barcode:
-    source_column: CAST("Barcode" as varchar)
-    alias: barcode
+    source_column: CAST(barcode as varchar)
   fbs_sku:
-    source_column: CAST("FBS OZON SKU ID" as varchar)
+    source_column: CAST(fbs_sku as varchar)
   fbo_sku:
-    source_column: CAST("FBO OZON SKU ID" as varchar)
-  item_name: '"Наименование товара"'
-  content_rating: '"Контент-рейтинг"'
-  brand: '"Бренд"'
-  item_status: '"Статус товара"'
-  is_fbo_visible: '"Видимость FBO"'
-  reason_fbo_visible: '"Причины скрытия FBO (при наличии)"'
-  is_fbs_visible: '"Видимость FBS"'
-  reason_fbs_visible: '"Причины скрытия FBS (при наличии)"'
-  created_at: '"Дата создания"'
-  category_comission: '"Категория комиссии"'
-  item_volume: '"Объем товара, л"'
-  item_weight: '"Объемный вес, кг"'
-  fbo_free_to_sell_amount: '"Доступно к продаже по схеме FBO, шт."'
-  exclude_tver: '"Вывезти и нанести КИЗ (кроме Твери), шт"'
-  reserved_amount: '"Зарезервировано, шт"'
-  fbs_free_to_sell_amount: '"Доступно к продаже по схеме FBS, шт."'
-  rfbs_free_to_sell_amount: '"Доступно к продаже по схеме realFBS, шт."'
-  seller_reserved_amount: '"Зарезервировано на моих складах, шт"'
-  price: '"Текущая цена с учетом скидки, ₽"'
-  old_price: '"Цена до скидки (перечеркнутая цена), ₽"'
-  premium_price: '"Цена Premium, ₽"'
-  marketing_price: '"Рыночная цена, ₽"'
-  link_marketing_price: '"Актуальная ссылка на рыночную цену"'
-  nds: '"Размер НДС, %"'
+    source_column: CAST(fbo_sku as varchar)
 hashed_columns:
   product_pk:
     is_hashdiff: true
     columns:
-      - derived_columns.product_id
       - derived_columns.offer_id
-      - derived_columns.barcode
-      - derived_columns.fbs_sku
-      - derived_columns.fbo_sku
-  daily_hashdiff:
+      - derived_columns.record_source
+  report_products_hashdiff:
     is_hashdiff: true
     columns:
-      - derived_columns.product_id
       - derived_columns.offer_id
-      - derived_columns.barcode
-      - derived_columns.fbs_sku
-      - derived_columns.fbo_sku
-      - CAST('{{ var("logical_date") }}' as date)
-      - '!report_products'
+      - derived_columns.process_date
+      - derived_columns.record_source
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}
 
-{{ automate_dv.stage(include_source_columns=no,
+{{ automate_dv.stage(include_source_columns=true,
                      source_model=metadata_dict['source_model'],
                      derived_columns=metadata_dict['derived_columns'],
                      null_columns=none,

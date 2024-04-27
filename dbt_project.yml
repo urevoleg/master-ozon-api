@@ -35,9 +35,16 @@ models:
   dm:
     # Applies to all files under models/dm/
     materialized: view
+    +schema: "dm"
   ods:
     materialized: incremental
   stg:
+    +schema: "stg"
     materialized: table
+    +quote_columns: true
   raw:
+    +schema: "raw"
     materialized: table
+    +quote_columns: true
+  elementary:
+    +schema: "elementary"
