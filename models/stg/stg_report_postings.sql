@@ -24,6 +24,12 @@ hashed_columns:
     columns:
       - derived_columns.posting_id
       - derived_columns.record_source
+  link_postings_products_pk:
+    is_hashdiff: true
+    columns:
+      - derived_columns.posting_id
+      - derived_columns.offer_id
+      - derived_columns.record_source
   order_pk:
     is_hashdiff: true
     columns:
@@ -36,6 +42,13 @@ hashed_columns:
       - derived_columns.order_id
       - derived_columns.offer_id
       - derived_columns.record_source
+  postings_hashdiff:
+    is_hashdiff: true
+    columns:
+      - processed_at
+      - shipped_at
+      - status
+      - delivered_at
   report_postings_hashdiff:
     is_hashdiff: true
     columns:

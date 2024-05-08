@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: hub_products
+    columns:
+      - name: offer_id
+        tests:
+          - unique
+      - name: barcode
+        tests:
+          - unique
+      - name: fbs_sku
+        tests:
+          - unique
+      - name: fbo_sku
+        tests:
+          - unique
+      - name: product_id
+        tests:
+          - unique
+      - name: product_pk
+        tests:
+          - relationships:
+              to: ref('product_prices_odm')
+              field: product_pk
+          - relationships:
+              to: ref('report_products')
+              field: product_pk
+          - relationships:
+              to: ref('report_stocks')
+              field: product_pk

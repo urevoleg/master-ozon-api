@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: report_products
+    columns:
+      - name: hashdiff
+        tests:
+          - unique
+

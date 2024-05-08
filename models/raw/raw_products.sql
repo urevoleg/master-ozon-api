@@ -27,12 +27,14 @@ CASE WHEN recommended_price = '' THEN 0::numeric ELSE recommended_price::numeric
 CASE WHEN min_price = '' THEN 0::numeric ELSE min_price::numeric END as min_price,
 sources,
 stocks,
+cast(stocks as json) as stocks_json_obj,
 errors,
 vat,
 visible,
 visibility_details,
 CASE WHEN price_index = '' THEN 0::numeric ELSE price_index::numeric END as price_index,
 commissions,
+cast(commissions as json) as commissions_json_obj,
 volume_weight,
 is_prepayment,
 is_prepayment_allowed,
@@ -54,7 +56,7 @@ price_indexes,
 sku,
 description_category_id,
 type_id,
-now() as effective_dttm
+p.effective_dttm
 FROM {{ source('external_data', 'raw_products_list') }} p
 JOIN {{ source('external_data', 'raw_products_extended') }} pe
 USING (offer_id)

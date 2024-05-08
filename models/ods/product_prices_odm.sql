@@ -1,7 +1,3 @@
--- noinspection SqlNoDataSourceInspectionForFile
-
--- noinspection SqlDialectInspectionForFile
-
 {{ config(
  tags=['ods_product_prices', 'product_prices', 'ods'],
  schema='ods',
@@ -12,16 +8,26 @@
 source_model: "stg_prices"
 src_pk: "product_pk"
 src_payload:
-  - product_id
   - offer_id
-  - price
+  - product_id
   - price_index
-  - commissions
-  - marketing_actions
   - volume_weight
-  - price_indexes
   - acquiring
+  - price
+  - old_price
+  - premium_price
+  - recommended_price
+  - vat
+  - min_ozon_price
+  - marketing_price
+  - marketing_seller_price
+  - min_price
+  - currency_code
+  - auto_action_enabled
+  - load_datetime
+  - record_source
   - process_date
+  - product_prices_hashdiff
 src_eff: "effective_dttm"
 {%- endset -%}
 

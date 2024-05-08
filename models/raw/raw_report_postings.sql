@@ -25,7 +25,8 @@ cast("Цена товара до скидок" as numeric),
 "Скидка %",
 cast("Скидка руб" as numeric),
 "Акции",
-'fbo' AS delivery_type
+'fbo' AS delivery_type,
+effective_dttm
 FROM {{ source('external_data', 'raw_report_postings_fbo') }}
 UNION ALL
 SELECT "Номер заказа",
@@ -49,7 +50,8 @@ cast("Сумма отправления" as numeric),
 "Скидка %",
 "Скидка руб",
 "Акции",
-'fbs' AS delivery_type
+'fbs' AS delivery_type,
+effective_dttm
 FROM {{ source('external_data', 'raw_report_postings_fbs') }})
 SELECT
 "Номер заказа" AS order_id,
@@ -73,5 +75,6 @@ SELECT
 "Скидка %" AS discount,
 "Скидка руб" AS discount_money,
 "Акции" AS promotions,
-delivery_type
+delivery_type,
+effective_dttm
 FROM raw

@@ -1,57 +1,74 @@
 -- noinspection SqlNoDataSourceInspectionForFile
-
 -- noinspection SqlDialectInspectionForFile
 -- incremental_strategy='delete+insert',
 -- unique_key=['hasdiff']
 
 {{ config(
- tags=['ods_report_postings', 'sat_report_postings', 'report_postings', 'postings', 'ods'],
+ tags=['ods_products', 'sat_products_ext_2', 'products', 'ods'],
  schema='ods',
  materialized='incremental',
- incremental_strategy='delete+insert',
- unique_key=['hashdiff']
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: "stg_report_postings"
-src_pk: "report_posting_pk"
+source_model: "stg_products"
+src_pk: "product_pk"
 src_hashdiff:
-  source_column: "report_postings_hashdiff"
+  source_column: "product_hashdiff"
   alias: "hashdiff"
 src_payload:
-  - processed_at
-  - shipped_at
-  - status
-  - delivered_at
-  - posting_cost
-  - money_code_out
-  - item_name
+  - is_fbo_visible
+  - is_fbs_visible
+  - archived
+  - is_discounted
+  - product_name
+  - buybox_price
+  - category_id
+  - created_at
   - marketing_price
-  - currency_code
-  - amount
-  - delivery_cost
-  - linked_postings
-  - repurchase_of_goods
+  - min_ozon_price
   - old_price
-  - discount
-  - discount_money
-  - promotions
-src_eff: "load_datetime"
+  - premium_price
+  - price
+  - recommended_price
+  - min_price
+  - vat
+  - visible
+  - price_index
+  - volume_weight
+  - is_prepayment
+  - is_prepayment_allowed
+  - color_image
+  - primary_image
+  - state
+  - service_type
+  - currency_code
+  - is_kgt
+  - has_discounted_item
+  - updated_at
+  - description_category_id
+  - type_id
+src_eff: "effective_dttm"
 src_ldts: "load_datetime"
 src_source: "record_source"
 src_extra_columns:
-  - posting_id
-  - posting_pk
-  - order_id
-  - order_pk
-  - product_pk
-  - delivery_type
+  - images
+  - sources
+  - stocks
+  - stocks_json_obj
+  - errors
+  - visibility_details
+  - commissions
+  - images360
+  - status
+  - discounted_stocks
+  - barcodes
+  - price_indexes
   - process_date
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}
 
-{{ automate_dv.postgres__sat(src_pk=metadata_dict["src_pk"],
+{{ automate_dv.postgres__sat_ext(src_pk=metadata_dict["src_pk"],
                    src_hashdiff=metadata_dict["src_hashdiff"],
                    src_payload=metadata_dict["src_payload"],
                    src_eff=metadata_dict["src_eff"],

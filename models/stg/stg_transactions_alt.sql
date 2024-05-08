@@ -1,27 +1,46 @@
 {{ config(
- tags=['stg_prices', 'product_prices', 'prices', 'stg'],
+ tags=['stg_transactions_alt', 'transactions_alt', 'stg'],
  schema='stg',
- materialized='table'
+ materialized='table',
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: raw_v_prices
+source_model: raw_v_transactions_alt
 derived_columns:
   load_datetime: CAST(now() as timestamp)
   record_source: '!ozon'
   process_date: CAST('{{ var("logical_date") }}' as date)
-  offer_id: offer_id
 hashed_columns:
-  product_pk:
+  transaction_pk:
+   is_hashdiff: true
+   columns:
+      - operation_id
+      - record_source
+  posting_pk:
     is_hashdiff: true
     columns:
-      - derived_columns.offer_id
-      - derived_columns.record_source
-  product_prices_hashdiff:
+      - posting_id
+      - record_source
+  link_transactions_postings_pk:
     is_hashdiff: true
     columns:
-      - derived_columns.offer_id
-      - derived_columns.record_source
+      - posting_id
+      - operation_id
+      - record_source
+  transactions_hashdiff:
+    is_hashdiff: true
+    columns:
+      - operation_type
+      - operation_date
+      - operation_type_name
+      - delivery_charge
+      - return_delivery_charge
+      - accruals_for_sale
+      - sale_commission
+      - amount
+      - service_type
+      - posting_id
+      - order_date
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}

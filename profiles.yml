@@ -8,19 +8,11 @@ default:
   outputs:
     dev:
       type: postgres
-      threads: 3
+      threads: 4
       host: localhost
       port: 5432
       user: shpz
       pass: "12345"
-      dbname: tmp
+      dbname: dwh
       schema: stg
-    duckdb:
-      type: duckdb
-      schema: ods
-      path: '~/Downloads/dbt.duckdb'
-      extensions:
-        - postgres
-        - httpfs
-        - parquet
   target: dev

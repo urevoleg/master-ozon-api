@@ -37,6 +37,7 @@ models:
     materialized: view
     +schema: "dm"
   ods:
+    +schema: "ods"
     materialized: incremental
   stg:
     +schema: "stg"
@@ -46,5 +47,4 @@ models:
     +schema: "raw"
     materialized: table
     +quote_columns: true
-  elementary:
-    +schema: "elementary"
+

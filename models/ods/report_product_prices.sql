@@ -1,9 +1,10 @@
 -- noinspection SqlNoDataSourceInspectionForFile
-
 -- noinspection SqlDialectInspectionForFile
+-- incremental_strategy='delete+insert',
+-- unique_key=['hasdiff']
 
 {{ config(
- tags=['ods_report_stocks', 'sat_report_stocks', 'stocks', 'ods'],
+ tags=['ods_sat_product_prices', 'sat_product_prices', 'products', 'ods'],
  schema='ods',
  materialized='incremental',
  incremental_strategy='delete+insert',
@@ -11,29 +12,42 @@
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: "stg_report_stocks"
-src_pk: "report_stock_pk"
+source_model: "stg_prices"
+src_pk: "product_pk"
 src_hashdiff:
-  source_column: "report_stocks_hashdiff"
+  source_column: "product_prices_hashdiff"
   alias: "hashdiff"
 src_payload:
-  - item_name
-  - free_to_sell_amount
-  - reserved_amount
-src_eff: "load_datetime"
+  - price_index
+  - volume_weight
+  - acquiring
+  - price_json_obj
+  - price
+  - old_price
+  - premium_price
+  - recommended_price
+  - vat
+  - min_ozon_price
+  - marketing_price
+  - marketing_seller_price
+  - min_price
+  - currency_code
+  - auto_action_enabled
+  - process_date
+src_eff: "effective_dttm"
 src_ldts: "load_datetime"
 src_source: "record_source"
 src_extra_columns:
-  - product_pk
-  - warehouse_pk
-  - warehouse_name
-  - delivery_type
+  - price_json_obj
+  - commissions_json_obj
+  - marketing_actions_json_obj
+  - price_indexes_json_obj
   - process_date
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}
 
-{{ automate_dv.postgres__sat(src_pk=metadata_dict["src_pk"],
+{{ automate_dv.postgres__sat_ext(src_pk=metadata_dict["src_pk"],
                    src_hashdiff=metadata_dict["src_hashdiff"],
                    src_payload=metadata_dict["src_payload"],
                    src_eff=metadata_dict["src_eff"],

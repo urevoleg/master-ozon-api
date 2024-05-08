@@ -1,10 +1,20 @@
+# Relations
+
+![raw_erd.png](../../img/raw_erd.png)
+
+--------------------------------
+
+
 'ephemeral' - работает не так как ожидается, не передаются поля из родительской модели, only cte
 Ограничение на длину имени русскими буквами = 32 символа
 
 
 1. Для sat_products - нужно делать бизнес историчность, тк в отчете нужна как текущая цена (фактически последняя актуальная), 
 так и цена на конкретный день
-2. order_date и proccessed_at имеют разницу в 3 часа - это может аффектить на расчеты
+
+- `product_prices_odm` - актуальная информация по ценам (на сейчас)
+
+2. order_date и proccessed_at имеют разницу в 3 часа - это может аффектить на расчеты (возможно это техническое ожидание очереди)
 3. в report_transactions могут приходить дубли???
 отбор: row_number() over (partition by operation_id order by process_date desc) as rn
 
@@ -37,3 +47,23 @@ from rr
 
 4. дубли в report_postings
 отбор: row_number() over (partition by rp.report_posting_pk order by process_date desc) as rn
+5. Для всех моделей ods используется 
+
+```yaml
+ materialized='incremental',
+ incremental_strategy='delete+insert',
+ unique_key=['hashdiff']
+```
+
+Некоторые модели (например, report_transactions) могут обойтись простым `incremental`, тк в hashdiff не входит 
+`process_date`. В тех где входит, могут появлятся дубли, при перезагрузке каких-либо дней не в том порядке.
+
+## DV
+
+1. Наименовать сущности в единственном числе
+2. Модель `postgres_sat_ext` - позволяет загружать json
+3. `odm` - актуальное состояние сущности
+4. Добавить в raw layer:
+   5. `report_code`: для отчетов равен идентификатору отчета, для запросов на сейчас равен api url
+   6. `created_at` для отчетов равен `created_at` из отчета, для запросов на сейчас равен моменту вызова api
+7. Сущность `product` собирать из 3 частей: list + extended + prices

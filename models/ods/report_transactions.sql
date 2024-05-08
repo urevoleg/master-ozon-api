@@ -6,6 +6,8 @@
  tags=['ods_report_transactions', 'sat_report_transactions', 'transactions', 'ods'],
  schema='ods',
  materialized='incremental',
+ incremental_strategy='delete+insert',
+ unique_key=['hashdiff']
 ) }}
 
 {%- set yaml_metadata -%}

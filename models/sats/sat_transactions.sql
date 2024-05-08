@@ -1,33 +1,37 @@
 -- noinspection SqlNoDataSourceInspectionForFile
-
 -- noinspection SqlDialectInspectionForFile
+-- incremental_strategy='delete+insert',
+-- unique_key=['hasdiff']
 
 {{ config(
- tags=['ods_report_stocks', 'sat_report_stocks', 'stocks', 'ods'],
+ tags=['ods_transactions', 'sat_transactions', 'transactions', 'transactions_alt', 'ods'],
  schema='ods',
  materialized='incremental',
- incremental_strategy='delete+insert',
- unique_key=['hashdiff']
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: "stg_report_stocks"
-src_pk: "report_stock_pk"
+source_model: "stg_transactions_alt"
+src_pk: "transaction_pk"
 src_hashdiff:
-  source_column: "report_stocks_hashdiff"
-  alias: "hashdiff"
+  source_column: "transactions_hashdiff"
+  alias: "hasdiff"
 src_payload:
-  - item_name
-  - free_to_sell_amount
-  - reserved_amount
-src_eff: "load_datetime"
+   - operation_type
+   - operation_date
+   - operation_type_name
+   - delivery_charge
+   - return_delivery_charge
+   - accruals_for_sale
+   - sale_commission
+   - amount
+   - service_type
+   - posting_id
+   - order_date
+src_eff: "effective_dttm"
 src_ldts: "load_datetime"
 src_source: "record_source"
 src_extra_columns:
-  - product_pk
-  - warehouse_pk
-  - warehouse_name
-  - delivery_type
+  - services_raw_obj
   - process_date
 {%- endset -%}
 

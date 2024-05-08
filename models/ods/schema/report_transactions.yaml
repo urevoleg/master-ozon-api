@@ -14,7 +14,8 @@ models:
                       'transfer_delivery',
                       'other',
                       'returns',
-                      'orders']
+                      'orders',
+              'compensation']
       - name: amount
         tests:
           - not_null
