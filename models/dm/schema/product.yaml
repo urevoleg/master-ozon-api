@@ -6,24 +6,44 @@ models:
   - name: dated_at
     description:  Дата расчета
     data_type: date
+    meta:
+      dimension:
+        amount:
+          type: date
   - name: product_pk
-    description:  Первичный ключ (суррогатный ключ)
+    description:  Surrogate unique key
     data_type: bytea
   - name: primary_image
-    description:  Картинка
+    description:  Product image
     data_type: character varying
   - name: product_name
-    description:  Название продукта
+    description:  Product name
     data_type: character varying
+    meta:
+      dimension:
+        amount:
+          type: string
   - name: category_comission
-    description:  Категория комиссии
+    description:  Category
     data_type: character varying
+    meta:
+      dimension:
+        amount:
+          type: string
   - name: brand
     description:  Бренд
     data_type: character varying
+    meta:
+      dimension:
+        amount:
+          type: string
   - name: offer_id
-    description:  ID предложения
+    description:  Артику
     data_type: character varying
+    meta:
+      dimension:
+        amount:
+          type: string
   - name: product_id
     description:  ID продукта
     data_type: bigint
@@ -65,7 +85,7 @@ models:
           type: sum
           label: Orders
         mean_amount:
-          type: mean
+          type: average
           label: Mean orders
           round: 2
     data_type: bigint
