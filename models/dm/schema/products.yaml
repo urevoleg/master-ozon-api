@@ -84,10 +84,6 @@ models:
         amount:
           type: sum
           label: Orders
-        mean_amount:
-          type: average
-          label: Mean orders
-          round: 2
     data_type: bigint
   - name: transactions_amount
     description:  Кол-во транзакций (выкупы)
