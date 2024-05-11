@@ -1,6 +1,6 @@
 version: 2
 models:
-- name: product_orders
+- name: products
   description: Таблица с информацией о кол-ве заказов в разрезе sku
   columns:
   - name: dated_at
