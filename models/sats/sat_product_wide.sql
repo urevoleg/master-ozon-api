@@ -4,13 +4,13 @@
 -- unique_key=['hasdiff']
 
 {{ config(
- tags=['ods_products', 'sat_products_ext_2', 'products', 'ods'],
+ tags=['ods_product', 'sat_product', 'products', 'product', 'ods'],
  schema='ods',
  materialized='incremental',
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: "stg_products"
+source_model: "stg_product"
 src_pk: "product_pk"
 src_hashdiff:
   source_column: "product_hashdiff"
@@ -20,10 +20,13 @@ src_payload:
   - is_fbs_visible
   - archived
   - is_discounted
+  - id
   - product_name
+  - barcode
   - buybox_price
   - category_id
   - created_at
+  - images
   - marketing_price
   - min_ozon_price
   - old_price
@@ -31,39 +34,46 @@ src_payload:
   - price
   - recommended_price
   - min_price
+  - sources
+  - errors
   - vat
   - visible
   - price_index
   - volume_weight
   - is_prepayment
   - is_prepayment_allowed
+  - images360
   - color_image
   - primary_image
   - state
   - service_type
+  - fbo_sku
+  - fbs_sku
   - currency_code
   - is_kgt
   - has_discounted_item
-  - updated_at
+  - sku
   - description_category_id
   - type_id
+  - price_marketing_seller_price
+  - price_auto_action_enabled
+  - price_acquiring
 src_eff: "effective_dttm"
 src_ldts: "load_datetime"
 src_source: "record_source"
 src_extra_columns:
-  - images
-  - sources
-  - stocks
-  - stocks_json_obj
-  - errors
-  - visibility_details
-  - commissions
-  - images360
-  - status
-  - discounted_stocks
-  - barcodes
-  - price_indexes
+  - updated_at
   - process_date
+  - stocks_json_obj
+  - visibility_details_json_obj
+  - commissions_json_obj
+  - status_json_obj
+  - discounted_stocks_json_obj
+  - barcodes_json_obj
+  - price_indexes_json_obj
+  - price_commissions_json_obj
+  - price_marketing_actions_json_obj
+  - price_price_json_obj
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}

@@ -1,33 +1,28 @@
 {{ config(
- tags=['ods_product_prices', 'product_prices', 'ods'],
- schema='ods',
+ tags=['ods_report_postings', 'report_postings', 'posting', 'odm', 'ods'],
+ schema='odm',
  materialized='table',
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: "stg_prices"
-src_pk: "product_pk"
+source_model: "stg_report_postings"
+src_pk: "posting_pk"
 src_payload:
-  - offer_id
-  - product_id
-  - price_index
-  - volume_weight
-  - acquiring
-  - price
-  - old_price
-  - premium_price
-  - recommended_price
-  - vat
-  - min_ozon_price
-  - marketing_price
-  - marketing_seller_price
-  - min_price
-  - currency_code
-  - auto_action_enabled
+  - processed_at
+  - shipped_at
+  - status
+  - delivered_at
+  - linked_postings
   - load_datetime
   - record_source
   - process_date
-  - product_prices_hashdiff
+  - order_id
+  - posting_id
+  - product_pk
+  - link_postings_products_pk
+  - order_pk
+  - report_posting_pk
+  - postings_hashdiff
 src_eff: "effective_dttm"
 {%- endset -%}
 

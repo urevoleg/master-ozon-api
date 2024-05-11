@@ -1,0 +1,103 @@
+version: 2
+models:
+- name: product_orders
+  description: Таблица с информацией о кол-ве заказов в разрезе sku
+  columns:
+  - name: dated_at
+    description:  Дата расчета
+    data_type: date
+  - name: product_pk
+    description:  Первичный ключ (суррогатный ключ)
+    data_type: bytea
+  - name: primary_image
+    description:  Картинка
+    data_type: character varying
+  - name: product_name
+    description:  Название продукта
+    data_type: character varying
+  - name: category_comission
+    description:  Категория комиссии
+    data_type: character varying
+  - name: brand
+    description:  Бренд
+    data_type: character varying
+  - name: offer_id
+    description:  ID предложения
+    data_type: character varying
+  - name: product_id
+    description:  ID продукта
+    data_type: bigint
+  - name: fbo_sku
+    description:  OZON FBO SKU
+    data_type: bigint
+  - name: fbs_sku
+    description:  OZON FBS SKU
+    data_type: bigint
+  - name: barcode
+    description:  Штрихкод
+    data_type: character varying
+  - name: price
+    description:  Цена
+    data_type: numeric
+  - name: current_price
+    description:  Текущая цена
+    data_type: numeric
+  - name: fbo_free_to_sell_amount
+    description:  Кол-во FBO доступных для продажи
+    data_type: bigint
+  - name: fbs_free_to_sell_amount
+    description:  Кол-во FBS доступных для продажи
+    data_type: bigint
+  - name: rfbs_free_to_sell_amount
+    description:  Кол-во RFBS доступных для продажи
+    data_type: bigint
+  - name: reserved_amount
+    description:  Кол-во зарезервированных
+    data_type: bigint
+  - name: seller_reserved_amount
+    description:  Кол-во зарезервированных продавцом
+    data_type: bigint
+  - name: orders_amount
+    description:  Кол-во заказов
+    meta:
+      metrics:
+        amount:
+          type: sum
+          label: Orders
+        mean_amount:
+          type: mean
+          label: Mean orders
+          round: 2
+    data_type: bigint
+  - name: transactions_amount
+    description:  Кол-во транзакций (выкупы)
+    data_type: bigint
+    meta:
+      metrics:
+        amount:
+          type: sum
+          label: Repurchase
+        mean_amount:
+          type: mean
+          label: Mean transactions
+  - name: accruals_for_sale
+    description:  Кол-во начислений за продажу
+    data_type: double precision
+    meta:
+      metrics:
+        amount:
+          type: sum
+          label: Total accruals
+        mean_amount:
+          type: mean
+          label: Mean accruals
+  - name: repurchase
+    description:  Выкупы, % (для конкретного продукта)
+    data_type: numeric
+  - name: min_price
+    description:  Минимальная цена (цена установленная поставщиком)
+    data_type: numeric
+  - name: marketing_seller_price
+    description:  Маркетинговая цена продавца (цена с учетом соинвеста OZON)
+    data_type: numeric
+

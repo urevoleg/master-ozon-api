@@ -15,4 +15,13 @@ default:
       pass: "12345"
       dbname: dwh
       schema: stg
+    archimedes:
+      type: postgres
+      threads: 4
+      host: 192.168.55.102
+      port: 5432
+      user: user
+      pass: "12345"
+      dbname: dwh
+      schema: stg
   target: dev

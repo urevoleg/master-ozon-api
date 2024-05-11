@@ -30,6 +30,12 @@ hashed_columns:
       - derived_columns.posting_id
       - derived_columns.offer_id
       - derived_columns.record_source
+  posting_item_pk:
+    is_hashdiff: true
+    columns:
+      - derived_columns.posting_id
+      - derived_columns.offer_id
+      - derived_columns.record_source
   order_pk:
     is_hashdiff: true
     columns:
@@ -49,6 +55,28 @@ hashed_columns:
       - shipped_at
       - status
       - delivered_at
+  posting_items_hashdiff:
+    is_hashdiff: true
+    columns:
+      - processed_at
+      - shipped_at
+      - status
+      - delivered_at
+      - posting_cost
+      - money_code_out
+      - item_name
+      - marketing_price
+      - currency_code
+      - amount
+      - delivery_cost
+      - linked_postings
+      - repurchase_of_goods
+      - old_price
+      - discount
+      - discount_money
+      - promotions
+      - delivery_type
+      - record_source
   report_postings_hashdiff:
     is_hashdiff: true
     columns:
