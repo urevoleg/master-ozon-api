@@ -6,10 +6,6 @@ models:
   - name: dated_at
     description:  Дата расчета
     data_type: date
-    meta:
-      dimension:
-        amount:
-          type: date
   - name: product_pk
     description:  Surrogate unique key
     data_type: bytea
@@ -19,31 +15,15 @@ models:
   - name: product_name
     description:  Product name
     data_type: character varying
-    meta:
-      dimension:
-        amount:
-          type: string
   - name: category_comission
     description:  Category
     data_type: character varying
-    meta:
-      dimension:
-        amount:
-          type: string
   - name: brand
     description:  Бренд
     data_type: character varying
-    meta:
-      dimension:
-        amount:
-          type: string
   - name: offer_id
     description:  Артику
     data_type: character varying
-    meta:
-      dimension:
-        amount:
-          type: string
   - name: product_id
     description:  ID продукта
     data_type: bigint
@@ -79,34 +59,13 @@ models:
     data_type: bigint
   - name: orders_amount
     description:  Кол-во заказов
-    meta:
-      metrics:
-        amount:
-          type: sum
-          label: Orders
     data_type: bigint
   - name: transactions_amount
     description:  Кол-во транзакций (выкупы)
     data_type: bigint
-    meta:
-      metrics:
-        amount:
-          type: sum
-          label: Repurchase
-        mean_amount:
-          type: mean
-          label: Mean transactions
   - name: accruals_for_sale
     description:  Кол-во начислений за продажу
     data_type: double precision
-    meta:
-      metrics:
-        amount:
-          type: sum
-          label: Total accruals
-        mean_amount:
-          type: mean
-          label: Mean accruals
   - name: repurchase
     description:  Выкупы, % (для конкретного продукта)
     data_type: numeric

@@ -25,17 +25,15 @@ transactions as (select *
 from {{ref('transaction_odm')}} t
 where t.service_type = 'orders'
 and t.accruals_for_sale > 0),
-orders as (select cast(post.processed_at as date) as dated_at,
-       l1.product_pk,
-       count(post.posting_pk) as orders_amount,
+orders as (select cast(pi.processed_at as date) as dated_at,
+       pi.product_pk,
+       sum(pi.amount) as orders_amount, -- здесь нужно sum(amount) из связи posting_pk <-> product_pk
        count(tr.transaction_pk) as transactions_amount,
        sum(tr.accruals_for_sale) as accruals_for_sale,
-       round(1.0 * count(tr.transaction_pk) / count(post.posting_pk), 2) as repurchase
-from {{ref('posting_odm')}} post
-left join {{ ref('link_postings_products') }} l1
-    on post.posting_pk = l1.posting_pk
+       round(1.0 * count(tr.transaction_pk) / sum(pi.amount), 2) as repurchase
+from {{ref('posting_item_odm')}} pi
 left join transactions tr
-    on post.posting_pk = tr.posting_pk
+    on pi.posting_pk = tr.posting_pk
 group by 1, 2
 order by 1, 2)
 select o.dated_at,

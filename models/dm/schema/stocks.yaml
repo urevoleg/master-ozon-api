@@ -1,0 +1,29 @@
+version: 2
+models:
+- name: products
+  description: Таблица с информацией об остатках
+  columns:
+  - name: dated_at
+    description:  Дата расчета
+    data_type: date
+  - name: warehouse_name
+    description:  Название склада
+    data_type: character varying
+  - name: offer_id
+    description:  Артикул
+    data_type: character varying
+  - name: product_name
+    description:  Product name
+    data_type: character varying
+  - name: free_to_sell_amount
+    description:  Кол-во доступных для продажи
+    data_type: bigint
+  - name: reserved_amount
+    description:  Кол-во зарезервированных
+    data_type: bigint
+  - name: warehouse_pk
+    description:  Surrogate unique key
+    data_type: bytea
+  - name: product_pk
+    description:  Surrogate unique key
+    data_type: bytea
