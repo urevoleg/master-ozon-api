@@ -1,5 +1,5 @@
-dbt-core==1.1.0
-dbt-postgres==1.1.0
+dbt-core==1.7.13
+dbt-postgres==1.7.13
 dbt-clickhouse
 dbt-duckdb
 
