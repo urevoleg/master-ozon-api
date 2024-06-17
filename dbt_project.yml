@@ -34,8 +34,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   dm:
     # Applies to all files under models/dm/
-    materialized: view
+    +materialized: table
     +schema: "dm"
+  odm:
+    materialized: table
+    +schema: "odm"
   ods:
     +schema: "ods"
     materialized: incremental

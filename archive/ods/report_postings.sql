@@ -1,40 +1,53 @@
 -- noinspection SqlNoDataSourceInspectionForFile
 
 -- noinspection SqlDialectInspectionForFile
+-- incremental_strategy='delete+insert',
+-- unique_key=['hasdiff']
 
 {{ config(
- tags=['ods_report_transactions', 'sat_report_transactions', 'transactions', 'ods'],
+ tags=['ods_report_postings', 'sat_report_postings', 'report_postings', 'postings', 'ods'],
  schema='ods',
  materialized='incremental',
  incremental_strategy='delete+insert',
- unique_key=['hashdiff']
+ unique_key=['hashdiff'],
+ post_hook=["GRANT USAGE ON SCHEMA ods TO external_user_ro",
+ "GRANT SELECT ON ALL TABLES IN SCHEMA ods TO external_user_ro"]
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: "stg_report_transactions"
-src_pk: "operation_id"
+source_model: "stg_report_postings"
+src_pk: "report_posting_pk"
 src_hashdiff:
-  source_column: "report_transactions_hashdiff"
+  source_column: "report_postings_hashdiff"
   alias: "hashdiff"
 src_payload:
-  - operation_type
-  - operation_date
-  - operation_type_name
-  - delivery_charge
-  - return_delivery_charge
-  - accruals_for_sale
-  - sale_commission
+  - processed_at
+  - shipped_at
+  - status
+  - delivered_at
+  - posting_cost
+  - money_code_out
+  - item_name
+  - marketing_price
+  - currency_code
   - amount
-  - service_type
+  - delivery_cost
+  - linked_postings
+  - repurchase_of_goods
+  - old_price
+  - discount
+  - discount_money
+  - promotions
 src_eff: "load_datetime"
 src_ldts: "load_datetime"
 src_source: "record_source"
 src_extra_columns:
-  - posting
-  - items
-  - services
-  - operation_id
-  - transaction_pk
+  - posting_id
+  - posting_pk
+  - order_id
+  - order_pk
+  - product_pk
+  - delivery_type
   - process_date
 {%- endset -%}
 

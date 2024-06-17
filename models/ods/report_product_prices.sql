@@ -8,14 +8,16 @@
  schema='ods',
  materialized='incremental',
  incremental_strategy='delete+insert',
- unique_key=['hashdiff']
+ unique_key=['hashdiff'],
+ post_hook=["GRANT USAGE ON SCHEMA ods TO external_user_ro",
+ "GRANT SELECT ON ALL TABLES IN SCHEMA ods TO external_user_ro"]
 ) }}
 
 {%- set yaml_metadata -%}
 source_model: "stg_prices"
 src_pk: "product_pk"
 src_hashdiff:
-  source_column: "product_prices_hashdiff"
+  source_column: "report_product_prices_hashdiff"
   alias: "hashdiff"
 src_payload:
   - price_index

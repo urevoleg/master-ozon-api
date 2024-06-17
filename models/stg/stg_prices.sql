@@ -22,6 +22,12 @@ hashed_columns:
     columns:
       - derived_columns.offer_id
       - derived_columns.record_source
+  report_product_prices_hashdiff:
+    is_hashdiff: true
+    columns:
+      - derived_columns.offer_id
+      - derived_columns.process_date
+      - derived_columns.record_source
 {%- endset -%}
 
 {% set metadata_dict = fromyaml(yaml_metadata) %}

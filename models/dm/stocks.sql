@@ -2,6 +2,8 @@
  tags=['dm_stocks', 'stocks', 'dm'],
  schema='dm',
  materialized='table',
+ post_hook=["GRANT USAGE ON SCHEMA dm TO external_user_ro",
+ "GRANT SELECT ON ALL TABLES IN SCHEMA dm TO external_user_ro"],
 ) }}
 
 with sat_product as (

@@ -1,0 +1,21 @@
+-- generate stg_batch
+{% macro stg_batch(src_tab, src_pk, src_eff, src_cols, snp_tab) %}
+
+  {%- set sel_cols = automate_dv.expand_column_list(columns=[src_pk, src_eff, src_cols]) -%}
+
+    {% set query %}
+      select {{ automate_dv.prefix(sel_cols, 'a') }}
+      from (
+        select {{ automate_dv.prefix(sel_cols, 's') }},
+          row_number() over (partition by {{ automate_dv.prefix([src_pk], 's') }}
+            order by {{ automate_dv.prefix([src_eff], 's')}} desc) as rn
+          from {{src_tab}} s) a
+      left join {{snp_tab}} b on
+        {{ automate_dv.multikey(src_pk, prefix=['b','a'], condition='=') }}
+      where a.rn = 1 and ({{ automate_dv.prefix([src_eff], 'a')}} > {{ automate_dv.prefix([src_eff], 'b')}} or
+        {{ automate_dv.prefix([src_eff], 'b')}} is null)
+    {% endset %}
+
+    {{return(query)}}
+  {% endif %}
+{%- endmacro %}

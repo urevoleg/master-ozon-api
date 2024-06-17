@@ -7,7 +7,9 @@
  schema='ods',
  materialized='incremental',
  incremental_strategy='delete+insert',
- unique_key=['hashdiff']
+ unique_key=['hashdiff'],
+ post_hook=["GRANT USAGE ON SCHEMA ods TO external_user_ro",
+ "GRANT SELECT ON ALL TABLES IN SCHEMA ods TO external_user_ro"]
 ) }}
 
 {%- set yaml_metadata -%}

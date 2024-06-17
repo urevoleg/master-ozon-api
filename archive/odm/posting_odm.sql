@@ -2,6 +2,8 @@
  tags=['ods_report_postings', 'report_postings', 'posting', 'odm', 'ods'],
  schema='odm',
  materialized='table',
+ post_hook=["GRANT USAGE ON SCHEMA odm TO external_user_ro",
+ "GRANT SELECT ON ALL TABLES IN SCHEMA odm TO external_user_ro"]
 ) }}
 
 {%- set yaml_metadata -%}

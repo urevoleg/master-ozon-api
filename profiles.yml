@@ -8,7 +8,7 @@ default:
   outputs:
     dev:
       type: postgres
-      threads: 4
+      threads: 1
       host: localhost
       port: 5432
       user: shpz
@@ -17,7 +17,7 @@ default:
       schema: stg
     archimedes:
       type: postgres
-      threads: 4
+      threads: 1
       host: 192.168.55.102
       port: 5432
       user: user

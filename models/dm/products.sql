@@ -2,6 +2,8 @@
  tags=['dm_products', 'products', 'dm'],
  schema='dm',
  materialized='table',
+ post_hook=["GRANT USAGE ON SCHEMA dm TO external_user_ro",
+ "GRANT SELECT ON ALL TABLES IN SCHEMA dm TO external_user_ro"],
 ) }}
 
 with sat_product as (
@@ -29,6 +31,7 @@ orders as (select cast(pi.processed_at as date) as dated_at,
        pi.product_pk,
        sum(pi.amount) as orders_amount, -- здесь нужно sum(amount) из связи posting_pk <-> product_pk
        count(tr.transaction_pk) as transactions_amount,
+       case when sum(tr.operation_id) is not null then sum(pi.amount) else 0 end as transactions_amount_alt,
        sum(tr.accruals_for_sale) as accruals_for_sale,
        round(1.0 * count(tr.transaction_pk) / sum(pi.amount), 2) as repurchase
 from {{ref('posting_item_odm')}} pi
@@ -57,14 +60,21 @@ select o.dated_at,
        p.seller_reserved_amount,
        o.orders_amount,
        o.transactions_amount,
+       o.transactions_amount_alt,
        o.accruals_for_sale,
        o.repurchase,
-       price.min_price,
-       price.marketing_seller_price
+       price.min_price, -- актуальная цена (на сегодня)
+       price.marketing_seller_price, -- актуальная цена (на сегодня)
+       pp.min_price as min_price_1d,
+       pp.marketing_seller_price as marketing_seller_price_1d,
+       pp.marketing_price as marketing_price_1d
 from orders o
 join {{ ref('report_products') }} p
 on o.product_pk = p.product_pk
 and o.dated_at = (p.process_date - interval '1 day')
+left join {{ ref('report_product_prices') }} pp
+on o.product_pk = pp.product_pk
+and o.dated_at = (pp.process_date - interval '1 day')
 left join {{ ref('product_prices_odm') }} price
 on o.product_pk = price.product_pk
 join sat_product s

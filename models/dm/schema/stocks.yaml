@@ -1,6 +1,6 @@
 version: 2
 models:
-- name: products
+- name: stocks
   description: Таблица с информацией об остатках
   columns:
   - name: dated_at
