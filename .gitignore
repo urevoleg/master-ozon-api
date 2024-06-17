@@ -165,4 +165,4 @@ target/
 logs/
 # end dbt Cloud content
 
-profiles.yml
+profiles.yml.shadow
