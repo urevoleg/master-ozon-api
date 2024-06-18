@@ -1,0 +1,25 @@
+name: SSH Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: SSH
+        uses: actions/setup-node@v1
+      - run: set -eu
+      - run: mkdir "$HOME/.ssh"
+      - run: echo "${{secrets.DEV_SSH_PRIVATE_KEY}}" > "$HOME/.ssh/id_rsa"
+      - run: chmod 600 "$HOME/.ssh/id_rsa"
+      - run: ssh -o StrictHostKeyChecking=no -i "$HOME/.ssh/id_rsa" -p ${{ secrets.DEV_SSH_PORT }} ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }} "cd /home/${{ secrets.DEV_USER }}/projects/master-ozon-api && git pull"

@@ -8,4 +8,42 @@ sources:
   - name: raw_report_transactions
     file_format: (TYPE = JSON)
 models:
-- name: raw_report_transactions
+  - name: raw_report_transactions
+    description: Список транзакций
+    custom_sql: "SELECT
+                        operation_id,
+                        operation_type,
+                        operation_date,
+                        operation_type_name,
+                        delivery_charge,
+                        return_delivery_charge,
+                        accruals_for_sale,
+                        sale_commission,
+                        amount,
+                        type,
+                        CAST(CAST (posting as json) as text) as posting,
+                        CAST(CAST (items as json) as text) as items,
+                        CAST(CAST (services as json) as text) as services,
+                        now() as effective_dttm
+                        FROM '{{ s3_full_path_with_bucket }}'"
+    infra: pg
+    source: ozon
+    s3_connection_id: s3-minio
+    s3_bucket: 'dev-raw'
+    s3_path: reports/transactions
+    s3_file_pattern: 'transactions_{{ logical_date }}.json'
+    file_type: json
+    source_schema: raw
+    source_table: raw_report_transactions
+    load_start_date: '2024-06-01'
+    schedule: 0 2 * * *
+    load_type: T-1
+    affects_to: True
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
+    columns:
+    - operation_id:
+        data_type: bigserial
+        description: 'Уникальный идентификатор: operation_id'
+        type: PK
+        original_name: operation_id

@@ -8,4 +8,4 @@ sources:
   - name: raw_warehouses
     file_format: (TYPE = JSON)
 models:
-- name: raw_warehouses
+  - name: raw_warehouses
