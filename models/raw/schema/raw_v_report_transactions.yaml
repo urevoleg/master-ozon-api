@@ -19,7 +19,7 @@ models:
     schedule: 0 2 * * *
     load_type: T-1
     depends_on:
-      - raw_report_transactions
+      - raw_raw_report_transactions
     affects_to: True
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
