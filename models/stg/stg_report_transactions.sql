@@ -5,7 +5,7 @@
 ) }}
 
 {%- set yaml_metadata -%}
-source_model: raw_report_transactions
+source_model: raw_v_report_transactions
 derived_columns:
   load_datetime: CAST(now() as timestamp)
   record_source: '!ozon'
