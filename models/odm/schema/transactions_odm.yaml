@@ -1,23 +1,23 @@
 version: 2
 models:
-  - name: stg_report_transactions
+  - name: transactions_odm
     description: Список транзакций
     custom_sql:
     infra: pg
     source: ozon
-    source_schema: stg
-    source_table: stg_report_transactions
+    source_schema: odm
+    source_table: transactions_odm
     load_start_date: '2024-06-01'
     schedule: 0 2 * * *
     load_type: T-1
     depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
-      - raw_raw_v_report_transactions
+      - stg_stg_transactions_alt
     affects_to: True
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
     columns:
-      - name: operation_id
+      - name: transaction_pk
         data_type: bigserial
-        description: 'Уникальный идентификатор: operation_id'
+        description: 'Уникальный идентификатор: transaction_pk'
         type: PK
-        original_name: operation_id
+        original_name: transaction_pk
