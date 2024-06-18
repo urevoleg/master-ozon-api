@@ -8,4 +8,4 @@ sources:
   - name: raw_report_stocks_fbs
     file_format: (TYPE = CSV)
 models:
-- name: raw_report_stocks_fbs
+  - name: raw_report_stocks_fbs

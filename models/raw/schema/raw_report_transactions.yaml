@@ -42,7 +42,7 @@ models:
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
     columns:
-    - operation_id:
+      - name: operation_id
         data_type: bigserial
         description: 'Уникальный идентификатор: operation_id'
         type: PK
