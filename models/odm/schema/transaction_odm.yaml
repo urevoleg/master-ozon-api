@@ -13,6 +13,17 @@ models:
     depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
       - stg_stg_transactions_alt
     affects_to: True
+    post_flow:
+      - clickhouse:
+          type: partition
+          amount: 3
+          schema: odm # если не указано, то схема модели
+          table: transaction_odm # если не указано, то имя модели
+          sharding_key: transaction_pk
+          order_by: 'type, name, operation_date'
+      - s3:
+          type: snapshot
+          s3_bucket: dev-archive
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
     columns:
