@@ -8,7 +8,7 @@ sources:
   - name: raw_v_report_transactions
     file_format: (TYPE = JSON)
 models:
-  - name: raw_report_transactions
+  - name: raw_v_report_transactions
     description: Список транзакций
     custom_sql:
     infra: pg
