@@ -1,5 +1,5 @@
 {{ config(
- tags=['odm_posting_item', 'posting_item', 'odm', 'ods'],
+ tags=['odm_posting_item', 'posting_item_odm', 'posting_item', 'odm', 'ods'],
  schema='odm',
  materialized='table',
  post_hook=["GRANT USAGE ON SCHEMA odm TO external_user_ro",
