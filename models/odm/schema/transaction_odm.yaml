@@ -15,7 +15,7 @@ models:
     affects_to: True
     pre_dq: # формирование входных проверок для расчета
       - exists__stg_transactions_alt:
-          sql: "SELECT now()"
+          sql: "SELECT count(1) FROM stg.stg_transactions_alt"
     post_dq: # формирование выходных проверок для расчета
       - uniq__transaction_pk:
           sql: "SELECT count(1) = count(distinct transaction_pk) {{ this }}"
