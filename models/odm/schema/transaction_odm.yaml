@@ -13,6 +13,12 @@ models:
     depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
       - stg_stg_transactions_alt
     affects_to: True
+    pre_dq: # формирование входных проверок для расчета
+      - exists__stg_transactions_alt:
+          sql: "SELECT now()"
+    post_dq: # формирование выходных проверок для расчета
+      - uniq__transaction_pk:
+          sql: "SELECT count(1) = count(distinct transaction_pk) {{ this }}"
     post_flow:
       - clickhouse:
           type: partition
@@ -23,6 +29,7 @@ models:
           order_by: 'type, name, operation_date'
       - s3:
           type: snapshot
+          s3_connection_id: "s3-minio"
           s3_bucket: dev-archive
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
