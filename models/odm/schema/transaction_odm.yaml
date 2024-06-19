@@ -18,7 +18,7 @@ models:
           sql: "SELECT count(1) FROM stg.stg_transactions_alt"
     post_dq: # формирование выходных проверок для расчета
       - uniq__transaction_pk:
-          sql: "SELECT count(1) = count(distinct transaction_pk) {{ this }}"
+          sql: "SELECT count(1) = count(distinct transaction_pk) odm.transaction_odm"
     post_flow:
       - clickhouse:
           type: partition
