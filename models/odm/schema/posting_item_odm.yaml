@@ -29,8 +29,8 @@ models:
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
     columns:
-      - name: transaction_pk
+      - name: posting_item_pk
         data_type: bigserial
-        description: 'Уникальный идентификатор: transaction_pk'
+        description: 'Уникальный идентификатор: posting_item_pk'
         type: PK
-        original_name: transaction_pk
+        original_name: posting_item_pk
