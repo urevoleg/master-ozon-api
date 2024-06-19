@@ -8,4 +8,29 @@ sources:
   - name: raw_report_postings_fbo
     file_format: (TYPE = CSV)
 models:
-- name: raw_report_postings_fbo
+  - name: raw_report_postings_fbo
+    description: Список отправлений по схеме FBO (заказов)
+    custom_sql: "select *,
+                        now() as effective_dttm
+from read_csv_auto('{{ s3_full_path_with_bucket }}', sep=';', header=true);"
+    infra: pg
+    source: ozon
+    s3_connection_id: s3-minio
+    s3_bucket: 'dev-raw'
+    s3_path: reports/postings
+    s3_file_pattern: 'fbo_seller_postings_{{ logical_date }}.csv'
+    file_type: csv
+    source_schema: raw
+    source_table: raw_report_postings_fbo
+    load_start_date: '2024-06-01'
+    schedule: 0 2 * * *
+    load_type: T-1
+    affects_to: True
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
+    columns:
+      - name: posting_id
+        data_type: bigserial
+        description: 'Уникальный идентификатор: posting_id'
+        type: PK
+        original_name: posting_id
