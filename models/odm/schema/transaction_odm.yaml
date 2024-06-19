@@ -16,6 +16,8 @@ models:
     pre_dq: # формирование входных проверок для расчета
       - exists__stg_transactions_alt:
           sql: "SELECT count(1) FROM stg.stg_transactions_alt"
+      - not_null__stg_transactions_alt_transaction_pk: # negative dq
+          sql: "SELECT count(1) FROM stg.stg_transactions_alt WHERE transaction_pk is null"
     post_dq: # формирование выходных проверок для расчета
       - uniq__transaction_pk:
           sql: "SELECT count(1) = count(distinct transaction_pk) FROM odm.transaction_odm"
