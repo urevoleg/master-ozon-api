@@ -1,0 +1,36 @@
+version: 2
+models:
+  - name: posting_item_odm
+    description: Список отправлений
+    custom_sql:
+    infra: pg
+    source: ozon
+    source_schema: odm
+    source_table: posting_item_odm
+    load_start_date: '2024-06-01'
+    schedule: 0 2 * * *
+    load_type: T-1
+    depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
+      - stg_stg_report_postings
+    affects_to: True
+    pre_dq: # формирование входных проверок для расчета
+      - exists__stg_report_postings:
+          sql: "SELECT count(1) FROM stg.stg_report_postings"
+      - not_null__stg_report_postings_posting_item_pk: # negative dq
+          sql: "SELECT count(1) FROM stg.stg_report_postings WHERE posting_item_pk is not null"
+    post_dq: # формирование выходных проверок для расчета
+      - uniq__posting_item_pk:
+          sql: "SELECT count(1) = count(distinct posting_item_pk) FROM odm.posting_item_odm"
+    post_flow:
+      - s3:
+          type: snapshot
+          s3_connection_id: "s3-minio"
+          s3_bucket: dev-archive
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
+    columns:
+      - name: transaction_pk
+        data_type: bigserial
+        description: 'Уникальный идентификатор: transaction_pk'
+        type: PK
+        original_name: transaction_pk
