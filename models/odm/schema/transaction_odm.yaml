@@ -15,11 +15,17 @@ models:
     affects_to: True
     pre_dq: # формирование входных проверок для расчета
       - exists__stg_transactions_alt:
+          type: check
+          description: Наличие данных в stg модели
           sql: "SELECT count(1) FROM stg.stg_transactions_alt"
-      - not_null__stg_transactions_alt_transaction_pk: # negative dq
+      - not_null__stg_transactions_alt_transaction_pk:
+          type: check
+          description: Отсутствие пропусков по PK
           sql: "SELECT count(1) FROM stg.stg_transactions_alt WHERE transaction_pk is not null"
     post_dq: # формирование выходных проверок для расчета
       - uniq__transaction_pk:
+          type: check
+          description: Отсутствие дубликатов по PK
           sql: "SELECT count(1) = count(distinct transaction_pk) FROM odm.transaction_odm"
     post_flow:
       - clickhouse:
