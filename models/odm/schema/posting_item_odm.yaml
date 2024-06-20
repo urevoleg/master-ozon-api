@@ -47,7 +47,6 @@ models:
           table: odm.posting_item_odm
           date_filter_column: processed_at
           days_back: 2
-
     post_flow:
       - s3:
           type: snapshot
