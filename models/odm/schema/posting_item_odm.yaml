@@ -43,8 +43,8 @@ models:
           max_threshold: 1.0
       - interval_processed_at__posting_item_odm:
           type: check
-          description: Отставание по времени (не более 2 дней)
-          sql: "SELECT now() - max(processed_at) < interval '2 day' FROM odm.posting_item_odm"
+          description: Отставание по времени (не более N дней)
+          sql: "SELECT now() - max(processed_at) < interval '1 day' FROM odm.posting_item_odm"
     post_flow:
       - s3:
           type: snapshot
