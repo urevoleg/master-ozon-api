@@ -15,12 +15,39 @@ models:
     affects_to: True
     pre_dq: # формирование входных проверок для расчета
       - exists__stg_report_postings:
+          type: check # управление выбором SQLCheckOperator, SQLValueCheckOperator или SQLThresholdCheckOperator
           sql: "SELECT count(1) FROM stg.stg_report_postings"
-      - not_null__stg_report_postings_posting_item_pk: # negative dq
+          description: Проверка кол-ва данных в родительской модели\таблице
+      - not_null__stg_report_postings_posting_item_pk:
+          type: check
           sql: "SELECT count(1) FROM stg.stg_report_postings WHERE posting_item_pk is not null"
+          description: Проверка отсутствия NULL в PK
     post_dq: # формирование выходных проверок для расчета
       - uniq__posting_item_pk:
+          type: check
           sql: "SELECT count(1) = count(distinct posting_item_pk) FROM odm.posting_item_odm"
+          description: Проверка отсутствия дублей по PK
+      - deviation_cnt__posting_item_odm:
+          type: threshold
+          sql: "with daily as (SELECT count(1) as __cnt
+                FROM odm.posting_item_odm
+                WHERE processed_at > now() - interval '7 day'
+                GROUP BY cast(processed_at as date)),
+                avg as (SELECT avg(__cnt) as __avg FROM daily),
+                deviation as (
+                SELECT ((select count(1) FROM stg.stg_report_postings) - (select __avg FROM avg)) / (select __avg FROM avg) as __deviation 
+                )
+                select * from deviation;"
+          description: Отклонение по кол-ву отправлений за день от среднего за неделю
+          min_threshold: -1.0
+          max_threshold: 1.0
+      - interval_processed_at__posting_item_odm:
+          type: interval
+          description: Отставание по времени
+          table: odm.posting_item_odm
+          date_filter_column: processed_at
+          days_back: 2
+
     post_flow:
       - s3:
           type: snapshot
