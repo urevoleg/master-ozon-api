@@ -30,6 +30,7 @@ models:
           FROM odm.transaction_odm WHERE operation_date::date = '{{ ds }}'"
       - test__clickhouse:
           type: check
+          conn_id: ch_db_local
           description: Коннект к клику
           sql: "SELECT '{{ ds }}' < now();"
     post_flow:
