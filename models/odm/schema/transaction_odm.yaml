@@ -26,7 +26,8 @@ models:
       - uniq__transaction_pk:
           type: check
           description: Отсутствие дубликатов по PK
-          sql: "SELECT count(1) = count(distinct transaction_pk) FROM odm.transaction_odm WHERE operation_date::date = {{ ds }}"
+          sql: "SELECT count(1) = count(distinct transaction_pk) 
+          FROM odm.transaction_odm WHERE operation_date::date = '{{ ds }}'"
     post_flow:
       - clickhouse:
           type: partition
