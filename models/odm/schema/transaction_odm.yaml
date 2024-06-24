@@ -28,6 +28,10 @@ models:
           description: Отсутствие дубликатов по PK
           sql: "SELECT count(1) = count(distinct transaction_pk) 
           FROM odm.transaction_odm WHERE operation_date::date = '{{ ds }}'"
+      - test__clickhouse:
+          type: check
+          description: Коннект к клику
+          sql: "SELECT '{{ ds }}' < now();"
     post_flow:
       - clickhouse:
           type: partition
