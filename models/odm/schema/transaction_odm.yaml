@@ -10,15 +10,29 @@ models:
     load_start_date: '2024-06-01'
     schedule: 0 2 * * *
     load_type: T-1
+    reload: # управление пересчетом в глубину
+      - deep: 3 # указание кол-ва дней в глубину
+        type: seq # вариант пересчета: seq: последовательный (таски создаются последовательно), parallel: динамическая таска
+#    depends_on: # нейминг - schema__table для datasets_on; dag_id, например, dm2_whs
+#      sensors_on: # блок сенсоров на другие даги, указываются ручками
+#      - dag_id: dm2_whs
+#        schedule: 0 1 * * *
+#        task_id: whs_transfer_to_ch
+#      - dag_id: dm2_ugc_feedbacks_stores
+#        schedule: 0 1 * * *
+#        task_id: ugc_feedbacks_stores_transfer_to_ch
+#      datasets_on: # блок триггерных датасетов, текущая витрина запуститься при обновлении этих датасетов
+#        - dm__mart_1
+#        - dm__mart_2
     depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
       - stg_stg_transactions_alt
-    affects_to: True
+    affects_to: True # после успешной отработки создать\обновить датасет, триггер для других
     pre_dq: # формирование входных проверок для расчета
       - exists__allow_failed:
           type: check
           description: Failed test на скип
           sql: "SELECT 0"
-          allow_failed: True
+          allow_failed: True # дефолт False, True - Failed статус алертится, но таска саксесится
       - exists__stg_transactions_alt:
           type: check
           description: Наличие данных в stg модели
