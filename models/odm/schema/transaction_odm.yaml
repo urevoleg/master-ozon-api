@@ -14,6 +14,11 @@ models:
       - stg_stg_transactions_alt
     affects_to: True
     pre_dq: # формирование входных проверок для расчета
+      - exists__allow_failed:
+          type: check
+          description: Failed test на скип
+          sql: "SELECT 0"
+          allow_failed: True
       - exists__stg_transactions_alt:
           type: check
           description: Наличие данных в stg модели
