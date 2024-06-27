@@ -20,4 +20,3 @@ select __deviation,
        '{{ var("logical_date") }}'::date  as dq_date_test,
         current_timestamp as dq_load_datetime
 from deviation
-;
