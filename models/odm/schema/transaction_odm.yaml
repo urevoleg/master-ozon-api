@@ -47,8 +47,8 @@ models:
           description: Отсутствие дубликатов по PK
           sql: "SELECT count(1) = count(distinct transaction_pk) 
           FROM odm.transaction_odm WHERE operation_date::date = '{{ ds }}'"
-          mode: sql # режим выполнения DQ: query: запуск указанного кода и проверка результата без сохранения
-          # table: сохранение результата в таблицу. Дефолт: sql
+          mode: query # режим выполнения DQ: query: запуск указанного кода и проверка результата без сохранения
+          # table: сохранение результата в таблицу. Дефолт: query
           # куда сохранять результаты - это договоренность (типа Postgres или Clickhouse)
           # Для table необходимо создать файл модели с неймингом post(pre)_dq___dq_name___source_table
           # Пример: post_dq___deviation_cnt__posting_item_odm___posting_item_odm
