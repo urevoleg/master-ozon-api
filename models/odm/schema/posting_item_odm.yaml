@@ -29,18 +29,19 @@ models:
           description: Проверка отсутствия дублей по PK
       - deviation_cnt__posting_item_odm:
           type: threshold
-          sql: "with daily as (SELECT count(1) as __cnt
-                FROM odm.posting_item_odm
-                WHERE processed_at > now() - interval '7 day'
-                GROUP BY cast(processed_at as date)),
-                avg as (SELECT avg(__cnt) as __avg FROM daily),
-                deviation as (
-                SELECT ((select count(1) FROM stg.stg_report_postings) - (select __avg FROM avg)) / (select __avg FROM avg) as __deviation 
-                )
-                select * from deviation;"
+#          sql: "with daily as (SELECT count(1) as __cnt
+#                FROM odm.posting_item_odm
+#                WHERE processed_at > now() - interval '7 day'
+#                GROUP BY cast(processed_at as date)),
+#                avg as (SELECT avg(__cnt) as __avg FROM daily),
+#                deviation as (
+#                SELECT ((select count(1) FROM stg.stg_report_postings) - (select __avg FROM avg)) / (select __avg FROM avg) as __deviation
+#                )
+#                select * from deviation;"
           description: Отклонение по кол-ву отправлений за день от среднего за неделю
           min_threshold: -1.0
           max_threshold: 1.0
+          mode: table
       - interval_processed_at__posting_item_odm:
           type: check
           description: Отставание по времени (не более N дней)
