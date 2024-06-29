@@ -16,7 +16,9 @@ models:
       - exists__stg_prices:
           type: check
           description: Наличие данных в stg модели
-          sql: "SELECT count(1) FROM stg.stg_prices"
+          # нужно чтобы stage был подходящий, тк модели до stage обновляются по Dataset-based
+          sql: "SELECT count(1) FROM stg.stg_prices 
+          where process_date = '{{ ds }}'::date - interval '1 day'"
     post_dq: # формирование выходных проверок для расчета
       - uniq__process_date_product_pk:
           type: check
