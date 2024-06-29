@@ -2,6 +2,55 @@ version: 2
 
 models:
   - name: hub_products
+    custom_sql:
+    infra: pg
+    source: ozon
+    source_schema: hubs
+    source_table: hub_products
+    load_start_date: '2024-06-01'
+    schedule: 0 2 * * *
+    load_type: T-1
+#    depends_on: # нейминг - schema__table для datasets_on; dag_id, например, dm2_whs
+#      sensors_on: # блок сенсоров на другие даги, указываются ручками
+#      - dag_id: dm2_whs
+#        schedule: 0 1 * * *
+#        task_id: whs_transfer_to_ch
+#      - dag_id: dm2_ugc_feedbacks_stores
+#        schedule: 0 1 * * *
+#        task_id: ugc_feedbacks_stores_transfer_to_ch
+#      datasets_on: # блок триггерных датасетов, текущая витрина запуститься при обновлении этих датасетов
+#        - dm__mart_1
+#        - dm__mart_2
+    depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
+      - stg_stg_product
+    affects_to: True # после успешной отработки создать\обновить датасет, триггер для других
+    pre_dq: # формирование входных проверок для расчета
+      - exists__allow_failed:
+          type: check
+          description: Failed test на скип
+          sql: "SELECT 0"
+          allow_failed: True # дефолт False, True - Failed статус алертится, но таска саксесится
+      - exists__stg_transactions_alt:
+          type: check
+          description: Наличие данных в stg модели
+          sql: "SELECT count(1) FROM stg.stg_transactions_alt"
+      - not_null__stg_transactions_alt_transaction_pk:
+          type: check
+          description: Отсутствие пропусков по PK
+          sql: "SELECT count(1) FROM stg.stg_transactions_alt WHERE transaction_pk is not null"
+    post_dq: # формирование выходных проверок для расчета
+      - uniq__transaction_pk:
+          type: check
+          description: Отсутствие дубликатов по PK
+          sql: "SELECT count(1) = count(distinct transaction_pk) 
+          FROM odm.transaction_odm WHERE operation_date::date = '{{ ds }}'"
+          mode: query # режим выполнения DQ: query: запуск указанного кода и проверка результата без сохранения
+          # table: сохранение результата в таблицу. Дефолт: query
+          # куда сохранять результаты - это договоренность (типа Postgres или Clickhouse)
+          # Для table необходимо создать файл модели с неймингом post(pre)_dq___dq_name___source_table
+          # Пример: post_dq___deviation_cnt__posting_item_odm___posting_item_odm
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
     columns:
       - name: offer_id
         tests:
