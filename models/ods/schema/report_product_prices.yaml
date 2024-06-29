@@ -11,14 +11,15 @@ models:
     load_start_date: '2024-06-06'
     schedule: 0 2 * * *
     load_type: T-1
+    depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
+      - stg_stg_prices
     affects_to: True # после успешной отработки создать\обновить датасет, триггер для других
     pre_dq: # формирование входных проверок для расчета
       - exists__stg_prices:
           type: check
           description: Наличие данных в stg модели
           # нужно чтобы stage был подходящий, тк модели до stage обновляются по Dataset-based
-          sql: "SELECT count(1) FROM stg.stg_prices 
-          where process_date = '{{ ds }}'::date - interval '1 day'"
+          sql: "SELECT count(1) FROM stg.stg_prices"
     post_dq: # формирование выходных проверок для расчета
       - uniq__process_date_product_pk:
           type: check
