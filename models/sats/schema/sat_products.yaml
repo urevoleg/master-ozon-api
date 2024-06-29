@@ -1,12 +1,12 @@
 version: 2
 
 models:
-  - name: hub_products
+  - name: sat_products
     custom_sql:
     infra: pg
     source: ozon
     source_schema: ods
-    source_table: hub_products
+    source_table: sat_products
     load_start_date: '2024-06-06'
     schedule: 0 2 * * *
     load_type: T-1
@@ -27,29 +27,5 @@ models:
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
     columns:
-      - name: offer_id
-        tests:
-          - unique
-      - name: barcode
-        tests:
-          - unique
-      - name: fbs_sku
-        tests:
-          - unique
-      - name: fbo_sku
-        tests:
-          - unique
-      - name: product_id
-        tests:
-          - unique
       - name: product_pk
-        tests:
-          - relationships:
-              to: ref('product_prices_odm')
-              field: product_pk
-          - relationships:
-              to: ref('report_products')
-              field: product_pk
-          - relationships:
-              to: ref('report_stocks')
-              field: product_pk
+

@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: report_product_prices
+    description: Дневной отчет по ценам на продукты
+    custom_sql:
+    infra: pg
+    source: ozon
+    source_schema: ods
+    source_table: report_product_prices
+    load_start_date: '2024-06-06'
+    schedule: 0 2 * * *
+    load_type: T-1
+    affects_to: True # после успешной отработки создать\обновить датасет, триггер для других
+    pre_dq: # формирование входных проверок для расчета
+      - exists__stg_prices:
+          type: check
+          description: Наличие данных в stg модели
+          sql: "SELECT count(1) FROM stg.stg_prices"
+    post_dq: # формирование выходных проверок для расчета
+      - uniq__process_date_product_pk:
+          type: check
+          description: Отсутствие дубликатов по дню и product_pk
+          sql: "select case when count(1) = 0 then 1 else 0 end
+                from (select process_date, product_pk
+                from ods.report_product_prices
+                where process_date = '{{ ds }}'::date - interval '1 day'
+                group by process_date, product_pk
+                having count(1) > 1) as dubl"
+          mode: query # режим выполнения DQ: query: запуск указанного кода и проверка результата без сохранения
+          # table: сохранение результата в таблицу. Дефолт: query
+          # куда сохранять результаты - это договоренность (типа Postgres или Clickhouse)
+          # Для table необходимо создать файл модели с неймингом post(pre)_dq___dq_name___source_table
+          # Пример: post_dq___deviation_cnt__posting_item_odm___posting_item_odm
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
+    columns:
+      - name: process_date
+        data_type: date
+        description: 'Логическая дата расчета process_date'
+        type: PK
+        original_name: process_date
+      - name: product_pk
+        data_type: bigserial
+        description: 'Уникальный идентификатор: product_pk'
+        type: PK
+        original_name: product_pk
+

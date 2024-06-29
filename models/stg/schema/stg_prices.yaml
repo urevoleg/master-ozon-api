@@ -1,17 +1,17 @@
 version: 2
 models:
-  - name: stg_product
-    description: Stage слой для продуктов, их расширенных атрибутов и цен (v2 c ценой)
+  - name: stg_prices
+    description: Stage слой для отчета по ценам на продукты
     custom_sql:
     infra: pg
     source: ozon
     source_schema: stg
-    source_table: stg_product
+    source_table: stg_prices
     load_start_date: '2024-06-06'
     schedule: 0 2 * * *
     load_type: T-1
     depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
-      - raw_raw_product_wide
+      - raw_raw_v_prices
     affects_to: True
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
