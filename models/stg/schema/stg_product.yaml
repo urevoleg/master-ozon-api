@@ -1,23 +1,28 @@
 version: 2
 models:
   - name: stg_product
-    description: Список транзакций
+    description: Stage слой для продуктов, их расширенных атрибутов и цен
     custom_sql:
     infra: pg
     source: ozon
     source_schema: stg
-    source_table: stg_transactions_alt
-    load_start_date: '2024-06-01'
+    source_table: stg_product
+    load_start_date: '2024-06-06'
     schedule: 0 2 * * *
     load_type: T-1
     depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
-      - raw_raw_v_transactions_alt
+      - raw_raw_product_wide
     affects_to: True
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
     columns:
-      - name: operation_id
+    - product_id:
         data_type: bigserial
-        description: 'Уникальный идентификатор: operation_id'
+        description: 'Уникальный идентификатор: product_id'
         type: PK
-        original_name: operation_id
+        original_name: product_id
+    - product_pk:
+        data_type: bigserial
+        description: 'Уникальный идентификатор: product_pk (суррогатный ключ)'
+        type: PK
+        original_name: product_pk

@@ -1,8 +1,8 @@
 version: 2
 # Зависимости:
 # + posting_item_odm
-# hub_products \ _ + products_extended, + products_list
-# sat_products /
+# hub_products \ _ + products_extended, + products_list / hub_product
+# sat_products /                                        \ sat_product_wide
 # product_prices_odm    \ _ prices (+ product_prices)
 # report_product_prices /
 # report_products _ raw_report_products

@@ -8,4 +8,35 @@ sources:
   - name: raw_products_list
     file_format: (TYPE = JSON)
 models:
-- name: raw_products_list
+  - name: raw_products_list
+    description: Данные по продуктам OZON (идентификаторы)
+    custom_sql: "SELECT
+                        product_id,
+                        offer_id,
+                        is_fbo_visible,
+                        is_fbs_visible,
+                        archived,
+                        is_discounted,
+                        now() as effective_dttm
+                        FROM '{{ s3_full_path_with_bucket }}'"
+    infra: pg
+    source: ozon
+    s3_connection_id: s3-minio
+    s3_bucket: 'dev-raw'
+    s3_path: products
+    s3_file_pattern: 'snapshot_products_{{ logical_date }}.json'
+    file_type: json
+    source_schema: raw
+    source_table: raw_products_list
+    load_start_date: '2024-06-06'
+    schedule: 0 2 * * *
+    load_type: T-1
+    affects_to: True # True - создать датасет с именем {{ source_schema }}_{{ model }}, значит кто-то зависит от этой модели
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
+    columns:
+    - offer_id:
+        data_type: bigserial
+        description: 'Уникальный идентификатор: offer_id'
+        type: PK
+        original_name: offer_id

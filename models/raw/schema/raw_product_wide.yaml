@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: raw_product_wide
+    description: Полная инфо по продуктам (общая инфа + расширенная инфа + текущие цены)
+    custom_sql:
+    infra: pg
+    source: ozon
+    source_schema: raw
+    source_table: raw_product_wide
+    load_start_date: '2024-06-06'
+    schedule: 0 2 * * *
+    load_type: T-1
+    depends_on: # Необходимо создать datasets {{ source_schema }}_{{ model }} для Dataset-based schedule
+      - raw_raw_prices
+      - raw_raw_products
+      - raw_raw_products_extended
+    affects_to: True
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
+    columns:
+    - offer_id:
+        data_type: bigserial
+        description: 'Уникальный идентификатор: offer_id'
+        type: PK
+        original_name: offer_id
