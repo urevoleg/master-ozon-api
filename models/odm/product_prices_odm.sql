@@ -1,5 +1,5 @@
 {{ config(
- tags=['ods_product_prices', 'product_prices', 'prices', 'ods', 'odm'],
+ tags=['ods_product_prices', 'product_prices', 'product_prices_odm', 'prices', 'ods', 'odm'],
  schema='odm',
  materialized='table',
  post_hook=["GRANT USAGE ON SCHEMA odm TO external_user_ro",
