@@ -4,7 +4,7 @@
 -- unique_key=['hasdiff']
 
 {{ config(
- tags=['ods_product', 'sat_product', 'products', 'product', 'ods'],
+ tags=['ods_product', 'sat_product', 'sat_product_wide', 'products', 'product', 'ods'],
  schema='ods',
  materialized='incremental',
 ) }}
