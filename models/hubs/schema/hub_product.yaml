@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: hub_product
+    custom_sql:
+    infra: pg
+    source: ozon
+    source_schema: ods
+    source_table: hub_product
+    load_start_date: '2024-06-06'
+    schedule: 0 2 * * *
+    load_type: T-1
+#    depends_on: # нейминг - schema__table для datasets_on; dag_id, например, dm2_whs
+#      sensors_on: # блок сенсоров на другие даги, указываются ручками
+#      - dag_id: dm2_whs
+#        schedule: 0 1 * * *
+#        task_id: whs_transfer_to_ch
+#      - dag_id: dm2_ugc_feedbacks_stores
+#        schedule: 0 1 * * *
+#        task_id: ugc_feedbacks_stores_transfer_to_ch
+#      datasets_on: # блок триггерных датасетов, текущая витрина запуститься при обновлении этих датасетов
+#        - dm__mart_1
+#        - dm__mart_2
+    depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
+      - stg_stg_product
+    affects_to: True # после успешной отработки создать\обновить датасет, триггер для других
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
+    columns:
+      - name: offer_id
+        tests:
+          - unique
+      - name: barcode
+        tests:
+          - unique
+      - name: fbs_sku
+        tests:
+          - unique
+      - name: fbo_sku
+        tests:
+          - unique
+      - name: product_id
+        tests:
+          - unique
+      - name: product_pk
+        tests:
+          - relationships:
+              to: ref('product_prices_odm')
+              field: product_pk
+          - relationships:
+              to: ref('report_products')
+              field: product_pk
+          - relationships:
+              to: ref('report_stocks')
+              field: product_pk
