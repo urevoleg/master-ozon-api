@@ -9,7 +9,7 @@ sources:
     file_format: (TYPE = JSON)
 models:
   - name: raw_v_transactions_alt
-    description: Список транзакций
+    description: Список транзакций (альтернатива)
     custom_sql:
     infra: pg
     source: ozon
