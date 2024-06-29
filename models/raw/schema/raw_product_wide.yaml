@@ -12,7 +12,7 @@ models:
     load_type: T-1
     depends_on: # Необходимо создать datasets {{ source_schema }}_{{ model }} для Dataset-based schedule
       - raw_raw_prices
-      - raw_raw_products
+      - raw_raw_products_list
       - raw_raw_products_extended
     affects_to: True
     alerting_chat_id: -1002165384587
