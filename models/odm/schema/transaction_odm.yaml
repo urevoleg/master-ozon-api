@@ -53,14 +53,14 @@ models:
           # Для table необходимо создать файл модели с неймингом post(pre)_dq___dq_name___source_table
           # Пример: post_dq___deviation_cnt__posting_item_odm___posting_item_odm
     post_flow:
-      - clickhouse:
+      - PostgresToClickhouseOperator:
           type: partition
           amount: 3
           schema: odm # если не указано, то схема модели
           table: transaction_odm # если не указано, то имя модели
           sharding_key: transaction_pk
           order_by: 'type, name, operation_date'
-      - s3:
+      - PostgresToS3Operator:
           type: snapshot
           s3_connection_id: "s3-minio"
           s3_bucket: dev-archive
