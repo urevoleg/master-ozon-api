@@ -58,12 +58,12 @@ models:
 #          amount: 3
 #          schema: odm # если не указано, то схема модели
 #          table: transaction_odm # если не указано, то имя модели
-#          sharding_key: transaction_pk
-#          order_by: 'type, name, operation_date'
+          sharding_key: transaction_pk
+          order_by: 'type, name, operation_date'
       - PostgresToS3Operator:
 #          type: snapshot
-#          s3_connection_id: "s3-minio"
-#          s3_bucket: dev-archive
+          s3_connection_id: "s3-minio"
+          s3_bucket: dev-archive
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
     columns:
