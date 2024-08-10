@@ -45,7 +45,8 @@ models:
       - interval_processed_at__posting_item_odm:
           type: check
           description: Отставание по времени (не более N дней)
-          sql: "SELECT now() - max(processed_at) <= interval '2 day' FROM odm.posting_item_odm"
+          sql: "SELECT now() - max(processed_at) <= interval '2 day', max(processed_at) last_processed_at 
+          FROM odm.posting_item_odm"
     post_flow:
       - PostgresToS3Operator:
 #          type: snapshot
