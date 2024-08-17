@@ -41,7 +41,7 @@ models:
           description: Отклонение по кол-ву отправлений за день от среднего за неделю
           min_threshold: -1.0
           max_threshold: 1.0
-          mode: table
+          mode: dbt
       - interval_processed_at__posting_item_odm:
           type: check
           description: Отставание по времени (не более N дней)
