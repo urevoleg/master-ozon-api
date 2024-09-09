@@ -1,0 +1,13 @@
+[Unit]
+Description=Dbt docs for master-ozon-api project
+After=multi-user.target
+
+[Service]
+WorkingDirectory=/home/userad/
+User=root
+ExecStart=/home/userad/projects/master-ozon-api/dbt-docs-web/dbt-docs.sh start
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
