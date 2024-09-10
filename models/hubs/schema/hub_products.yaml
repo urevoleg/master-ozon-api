@@ -1,7 +1,7 @@
 version: 2
-
 models:
   - name: hub_products
+    description: Хаб по products (содержит все уникальные product_pk)
     custom_sql:
     infra: pg
     source: ozon

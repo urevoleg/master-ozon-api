@@ -1,7 +1,7 @@
 version: 2
-
 models:
   - name: sat_products
+    description: Саттелит по products (содержит все атрибуты продукта)
     custom_sql:
     infra: pg
     source: ozon
