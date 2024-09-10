@@ -26,6 +26,8 @@ models:
     affects_to: True # после успешной отработки создать\обновить датасет, триггер для других
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
+    tags:
+      - hub
     columns:
       - name: offer_id
         tests:

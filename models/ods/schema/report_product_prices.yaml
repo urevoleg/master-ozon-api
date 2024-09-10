@@ -37,6 +37,8 @@ models:
           # Пример: post_dq___deviation_cnt__posting_item_odm___posting_item_odm
     alerting_chat_id: -1002165384587
     alerting_secret_name: home_urevoleg_alerting_bot_token
+    tags:
+      - report
     columns:
       - name: process_date
         data_type: date
