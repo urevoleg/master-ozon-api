@@ -1,7 +1,7 @@
 {{ config(
- tags=['raw_report_products', 'report_products', 'products', 'raw'],
+ tags=['raw_v_report_products', 'raw_report_products', 'report_products', 'products', 'raw'],
  schema='raw',
- materialized='view',
+ materialized='view'
 ) }}
 
 SELECT *
