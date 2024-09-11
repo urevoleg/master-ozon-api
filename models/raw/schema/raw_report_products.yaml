@@ -47,7 +47,7 @@ models:
     s3_connection_id: s3-minio
     s3_bucket: 'dev-raw'
     s3_path: reports/products
-    s3_file_pattern: 'seller_products_{logical_date}.csv'
+    s3_file_pattern: 'seller_products_{{ logical_date }}.csv'
     file_type: json
     source_schema: raw
     source_table: raw_report_products
