@@ -1,5 +1,5 @@
 {{ config(
- tags=['raw_report_products', 'report_products', 'products', 'raw'],
+ tags=['raw_report_products', 'raw'],
  schema='raw',
  materialized='table'
 ) }}

@@ -1,5 +1,5 @@
 {{ config(
- tags=['stg_report_products', 'report_products', 'products', 'stg'],
+ tags=['stg_report_products', 'stg'],
  schema='stg',
  materialized='table',
 ) }}

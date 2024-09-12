@@ -3,7 +3,7 @@
 -- noinspection SqlDialectInspectionForFile
 
 {{ config(
- tags=['ods_report_stocks', 'sat_report_stocks', 'stocks', 'ods'],
+ tags=['ods_report_stocks', 'sat_report_stocks', 'ods'],
  schema='ods',
  materialized='incremental',
  incremental_strategy='delete+insert',

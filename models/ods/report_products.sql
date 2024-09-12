@@ -5,7 +5,7 @@
 -- unique_key=['hasdiff']
 
 {{ config(
- tags=['ods_report_products', 'sat_report_products', 'products', 'ods'],
+ tags=['ods_report_products', 'report_products', 'ods'],
  schema='ods',
  materialized='incremental',
  incremental_strategy='delete+insert',
