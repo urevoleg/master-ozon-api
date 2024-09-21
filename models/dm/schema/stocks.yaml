@@ -15,6 +15,8 @@ models:
     - ods_sat_products
     - ods_report_stocks
   affects_to: True
+  alerting_chat_id: -1002165384587
+  alerting_secret_name: home_urevoleg_alerting_bot_token
   columns:
   - name: dated_at
     description:  Дата расчета
