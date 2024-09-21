@@ -1,0 +1,24 @@
+version: 2
+models:
+  - name: raw_report_stocks
+    description: Отчет об остатках товаров на складах
+    custom_sql:
+    infra: pg
+    source: ozon
+    source_schema: raw
+    source_table: raw_report_stocks
+    load_start_date: '2024-06-01'
+    schedule: 0 2 * * *
+    load_type: T-1
+    depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
+      - raw_raw_report_stocks_fbo
+      - raw_raw_report_stocks_fbs
+    affects_to: True
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
+    columns:
+      - name: posting_id
+        data_type: bigserial
+        description: 'Уникальный идентификатор: posting_id'
+        type: PK
+        original_name: posting_id

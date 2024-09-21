@@ -2,6 +2,19 @@ version: 2
 models:
 - name: stocks
   description: Таблица с информацией об остатках
+  custom_sql:
+  infra: pg
+  source: ozon
+  source_schema: odm
+  source_table: posting_item_odm
+  load_start_date: '2024-06-01'
+  schedule: 0 2 * * *
+  load_type: T-1
+  depends_on: # Необходимо создать inlets datasets {{ source_schema }}_{{ model }}
+    - ods_hub_products
+    - ods_sat_products
+    - ods_report_stocks
+  affects_to: True
   columns:
   - name: dated_at
     description:  Дата расчета
