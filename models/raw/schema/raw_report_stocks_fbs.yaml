@@ -9,3 +9,28 @@ sources:
     file_format: (TYPE = CSV)
 models:
   - name: raw_report_stocks_fbs
+    description: Отчет по остаткам FBS
+    custom_sql: "SELECT
+                    \"Идентификатор склада\",
+                    \"Название склада\",
+                    \"Артикул\",
+                    \"Наименование товара\",
+                    \"Доступно на моем складе, шт\",
+                    \"Зарезервировано на моем складе, шт\",
+                                            now() as effective_dttm
+                    FROM '{{ s3_full_path_with_bucket }}';"
+    infra: pg
+    source: ozon
+    s3_connection_id: s3-minio
+    s3_bucket: 'dev-raw'
+    s3_path: reports/stocks
+    s3_file_pattern: 'fbs_stocks_{ logical_date }.csv'
+    file_type: csv
+    source_schema: raw
+    source_table: raw_report_stocks_fbs
+    load_start_date: '2024-06-01'
+    schedule: 0 2 * * *
+    load_type: T-1
+    affects_to: True
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token

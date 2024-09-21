@@ -8,4 +8,30 @@ sources:
   - name: raw_report_stocks_fbo
     file_format: (TYPE = JSON)
 models:
-- name: raw_report_stocks_fbo
+  - name: raw_report_stocks_fbo
+    description: Отчет по остаткам FBO
+    custom_sql: "SELECT
+                        sku,
+                        warehouse_name,
+                        item_code,
+                        item_name,
+                        promised_amount,
+                        free_to_sell_amount,
+                        reserved_amount,
+                        now() as effective_dttm
+                        FROM '{{ s3_full_path_with_bucket }}';"
+    infra: pg
+    source: ozon
+    s3_connection_id: s3-minio
+    s3_bucket: 'dev-raw'
+    s3_path: reports/stocks
+    s3_file_pattern: 'fbo_stocks_{ logical_date }.json'
+    file_type: csv
+    source_schema: raw
+    source_table: raw_report_stocks_fbo
+    load_start_date: '2024-06-01'
+    schedule: 0 2 * * *
+    load_type: T-1
+    affects_to: True
+    alerting_chat_id: -1002165384587
+    alerting_secret_name: home_urevoleg_alerting_bot_token
