@@ -26,7 +26,7 @@ models:
     s3_bucket: 'dev-raw'
     s3_path: reports/stocks
     s3_file_pattern: 'fbo_stocks_{ logical_date }.json'
-    file_type: csv
+    file_type: json
     source_schema: raw
     source_table: raw_report_stocks_fbo
     load_start_date: '2024-06-01'
