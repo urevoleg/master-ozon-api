@@ -39,5 +39,8 @@ models:
       - name: sku
         data_type: bigserial
         description: 'Уникальный идентификатор: sku'
-        type: PK
         original_name: sku
+      - name: warehouse_name
+        data_type: varchar
+        description: 'Нименование или ИД склада'
+        original_name: warehouse_name

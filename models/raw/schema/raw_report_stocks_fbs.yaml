@@ -38,5 +38,8 @@ models:
       - name: 'Артикул'
         data_type: bigserial
         description: 'Уникальный идентификатор товара'
-        type: PK
         original_name: 'Артикул'
+      - name: 'Идентификатор склада'
+        data_type: varchar
+        description: 'Нименование или ИД склада'
+        original_name: 'Идентификатор склада'
