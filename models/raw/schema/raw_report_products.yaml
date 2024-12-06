@@ -23,8 +23,8 @@ models:
                             \"Контент-рейтинг\" as content_rating,
                             \"Бренд\" as brand,
                             \"Статус товара\" as item_status,
-                            \"Отзывы\" as feedbacks, -- new
-                            \"Рейтинг\" as rating, -- new
+                            \"Отзывы\" as feedbacks,
+                            \"Рейтинг\" as rating,
                             \"Видимость на Ozon\" as is_fbo_visible,
                             \"Видимость на Ozon\" as is_ozon_visible,
                             \"Причины скрытия\" as reason_visible,
@@ -93,8 +93,8 @@ models:
                             \"Контент-рейтинг\" as content_rating,
                             \"Бренд\" as brand,
                             \"Статус товара\" as item_status,
-                            \"Отзывы\" as feedbacks, -- new
-                            \"Рейтинг\" as rating, -- new
+                            \"Отзывы\" as feedbacks,
+                            \"Рейтинг\" as rating,
                             \"Видимость на Ozon\" as is_fbo_visible,
                             \"Видимость на Ozon\" as is_ozon_visible,
                             \"Причины скрытия\" as reason_visible,
