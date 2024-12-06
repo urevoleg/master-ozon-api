@@ -86,8 +86,8 @@ models:
     custom_sql: "SELECT
                             \"Артикул\" as offer_id,
                             \"Ozon Product ID\" as product_id,
-                            \"SKU\" as fbo_sku, -- use for compatibility
-                            \"SKU\" as fbs_sku, -- use for compatibility
+                            \"SKU\" as fbo_sku,
+                            \"SKU\" as fbs_sku,
                             \"Barcode\" as barcode,
                             \"Наименование товара\" as item_name,
                             \"Контент-рейтинг\" as content_rating,
@@ -95,12 +95,12 @@ models:
                             \"Статус товара\" as item_status,
                             \"Отзывы\" as feedbacks, -- new
                             \"Рейтинг\" as rating, -- new
-                            \"Видимость на Ozon\" as is_fbo_visible, -- use for compatibility
-                            \"Видимость на Ozon\" as is_ozon_visible, -- new
+                            \"Видимость на Ozon\" as is_fbo_visible,
+                            \"Видимость на Ozon\" as is_ozon_visible,
                             \"Причины скрытия\" as reason_visible,
-                            \"Причины скрытия\" as reason_fbo_visible, -- use for compatibility
-                            \"Видимость на Ozon\" as is_fbs_visible, -- use for compatibility
-                            \"Причины скрытия\" as reason_fbs_visible, -- use for compatibility
+                            \"Причины скрытия\" as reason_fbo_visible,
+                            \"Видимость на Ozon\" as is_fbs_visible,
+                            \"Причины скрытия\" as reason_fbs_visible,
                             \"Дата создания\" as created_at,
                             \"Категория комиссии\" as category_comission,
                             \"Объем товара, л\" as item_volume,
