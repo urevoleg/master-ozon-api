@@ -86,8 +86,8 @@ models:
     custom_sql: "SELECT
                             \"Артикул\" as offer_id,
                             \"Ozon Product ID\" as product_id,
-                            \"SKU ID\" as fbo_sku, -- use for compatibility
-                            \"SKU ID\" as fbs_sku, -- use for compatibility
+                            \"SKU\" as fbo_sku, -- use for compatibility
+                            \"SKU\" as fbs_sku, -- use for compatibility
                             \"Barcode\" as barcode,
                             \"Наименование товара\" as item_name,
                             \"Контент-рейтинг\" as content_rating,
