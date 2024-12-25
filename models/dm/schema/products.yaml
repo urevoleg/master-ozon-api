@@ -10,7 +10,7 @@ version: 2
 #
 models:
 - name: products
-  description: Таблица с информацией об остатках
+  description: Таблица с информацией о sku
   custom_sql:
   infra: pg
   source: ozon
